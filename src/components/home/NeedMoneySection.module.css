@@ -1,0 +1,22 @@
+.hero_text {
+  text-align: center;
+}
+
+.heading_primary {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-size: 40px;
+  letter-spacing: 5px;
+  color: #971201; /* Dark red like the image */
+  margin-bottom: 10px;
+}
+
+.subtext {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 28px;
+
+  color: #000000;
+  line-height: 1.5;
+  letter-spacing: 4.8px;
+}

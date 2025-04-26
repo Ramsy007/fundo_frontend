@@ -1,0 +1,82 @@
+.hero {
+  width: 70%;
+  height: 90dvh;
+  background: #971201 0% 0% no-repeat padding-box;
+  border: 1px solid #707070;
+  border-radius: 72px;
+
+  margin-left: auto;
+  margin-right: 2rem;
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -450px;
+  width: 1000px;
+  height: 100%;
+  background: url("./public/images/fundobabaHero.png") no-repeat left center;
+  background-size: contain;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-top: 5rem;
+  padding-right: 5rem;
+  padding-bottom: 5rem;
+  height: 100%;
+}
+
+.img_logo_container {
+  width: 15rem;
+}
+
+.hero__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: flex-end;
+}
+
+.hero_desc {
+  text-align: right;
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-size: 50px;
+  line-height: 60px;
+  letter-spacing: 12px;
+  color: #ffffff;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.hero_btn {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background-color: #ffffff;
+  color: #971201;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.5;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.hero_btn:hover {
+  background-color: #ffebe7;
+  color: #971201;
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
