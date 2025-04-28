@@ -1,53 +1,47 @@
 import React from "react";
-import { motion } from "framer-motion";
 
 const steps = [
   {
     src: "/Step1.png",
     alt: "Eligibility Check",// Tu yahan apna address likh lena
     active: true,
+    label: "Eligibility Check",
   },
   {
     src: "/Step2.png",
     alt: "Fill Application",
     active: false,
+    label: "Fill Application",
   },
   {
     src: "/Step3.png",
     alt: "Upload Documents",
     active: false,
+    label: "Upload Documents",
   },
   {
     src: "/Step4.png",
     alt: "Verification Process",
     active: false,
+    label: "Verification Process",
   },
   {
     src: "/Step5.png",
     alt: "Final Approval",
     active: false,
+    label: "Final Approval",
   },
 ];
 
 export default function StepsList() {
   return (
-    <div className="hidden md:flex flex-col items-start ml-8 space-y-6 absolute right-1/2 translate-x-[500px] top-1/2 -translate-y-1/2 z-30">
+    <div className="flex flex-row md:flex-col md:items-start space-x-4 md:space-x-0 md:space-y-6 md:ml-8 md:absolute md:right-1/2 md:translate-x-[350px] md:top-1/2 md:-translate-y-1/2 z-30">
       {steps.map((step, idx) => (
-        <motion.div
+        <div
           key={idx}
-          className={`flex flex-col items-center gap-1 ${step.active ? "font-bold" : ""} w-full`}
-          initial={{ opacity: 0, y: 30, scale: 0.85 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ type: "spring", stiffness: 400, damping: 24, delay: 0.2 + idx * 0.13 }}
-          whileHover={{ scale: 1.08 }}
+          className={`${step.active ? "font-bold" : ""}`}
         >
-          <motion.div
-            className="w-[54px] h-[54px] flex items-center justify-center bg-gray-100 rounded-full overflow-hidden border border-gray-300 transition-shadow"
-            whileHover={{
-              boxShadow: "0 0 16px 4px #00eaff, 0 0 32px 8px #00eaff55"
-            }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          >
+          <div className="w-[40px] h-[40px] md:w-[54px] md:h-[54px] flex items-center justify-center bg-blur rounded-full overflow-hidden">
             {step.src && (
               <img
                 src={step.src}
@@ -55,11 +49,11 @@ export default function StepsList() {
                 className="w-full h-full object-contain"
               />
             )}
-          </motion.div>
-          <div className="text-[10px] text-gray-500 text-center w-full min-h-[16px]">
-            {step.address}
           </div>
-        </motion.div>
+          <div className="text-[10px] text-yellow-500 min-h-[16px] hidden md:block text-center">
+            {step.label}
+          </div>
+        </div>
       ))}
     </div>
   );
