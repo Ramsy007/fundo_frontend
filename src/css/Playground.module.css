@@ -1,128 +1,185 @@
-.emiCalculator {
-  display: flex; /* Add this */
-  justify-content: flex-end; /* Push calculatorBox to the right */
-  align-items: center;
-  overflow: hidden;
-  position: relative;
-  min-height: 100vh; /* So baba fits nicely */
+.moneyMomentsSection {
+  width: 100%;
+  background: #fff;
+  padding: 2.5rem 1rem 3.5rem 1rem;
 }
 
-.emiCalculator::before {
-  content: "";
-  position: absolute;
-  left: -150px;
-  bottom: 0;
-  width: 700px;
-  height: 700px;
-  background: url("./public/images/calcibaba.png") no-repeat center/contain;
-  z-index: 10;
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto 2.5rem auto;
+  flex-wrap: wrap;
 }
 
-.calculatorBox {
-  text-align: right;
-  background: #f4dad8;
-  border-top-left-radius: 43px;
-  border-bottom-left-radius: 43px;
-  padding: 3rem;
-  width: 80%;
-  position: relative;
+.headingLeft {
+  flex: 1 1 400px;
 }
 
-.headingPrimary {
-  text-align: left;
-  font-family: "Poppins", sans-serif;
-  font-weight: 200;
-  font-size: 90px;
-  line-height: 60px;
-  letter-spacing: 18px;
-  color: #0d0d0d;
-}
-
-.headingSecondary {
-  text-align: left;
-  font-family: "Poppins", sans-serif;
+.mainHeading {
+  font-size: 2.5rem;
   font-weight: 400;
-  font-size: 60px;
-  line-height: 60px;
-  letter-spacing: 12px;
-  color: #0d0d0d;
+  letter-spacing: 0.12em;
+  line-height: 1.1;
+  margin: 0 0 0.5rem 0;
+  color: #111;
 }
 
-.description {
-  text-align: left;
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 45px;
-  letter-spacing: 3px;
-  color: #000000;
-}
-
-.description strong {
-  text-align: left;
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-size: 30px;
-  line-height: 45px;
-  letter-spacing: 3px;
-  color: #000000;
-}
-
-.inputContainer {
+.headingRight {
+  flex: 1 1 250px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  align-items: flex-end;
+  justify-content: flex-start;
+  min-width: 220px;
+  margin-top: 0.5rem;
 }
 
-.inputContainer input {
-  padding: 1rem;
-  border-radius: 20px;
-  border: none;
-  font-family: "Poppins", sans-serif;
-  font-size: 16px;
-  background: #fff;
-  color: #333;
-  outline: none;
-  z-index: 20;
+.subHeading {
+  font-size: 1.15rem;
+  color: #222;
+  text-align: right;
+  margin-bottom: 1.2rem;
+  line-height: 1.4;
 }
 
-.subtext {
-  font-family: "Poppins", sans-serif;
-  font-size: 14px;
-  color: #999;
-  margin-top: 1.5rem;
-  margin-left: 1rem;
-  text-align: left;
-}
-
-.applyNowContainer {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-top: 1rem;
-  gap: 10px;
-}
-
-.applyNowContainer span {
-  font-family: "Poppins", sans-serif;
-  font-size: 16px;
-  color: #333;
-}
-
-.circleButton {
-  background: #b14800;
-  color: #fff;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
+.applyNow {
+  font-size: 1rem;
+  letter-spacing: 0.18em;
+  color: #222;
+  text-align: right;
   cursor: pointer;
-  transition: background 0.3s ease;
+  margin-top: 0.2rem;
 }
 
-.circleButton:hover {
-  background: #8e3600;
+.cardsRow {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: stretch;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: #0d3c4b;
+  color: #fff;
+  flex: 1 1 340px;
+  min-width: 300px;
+  max-width: 420px;
+  padding: 2.5rem 2rem 2.5rem 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+}
+
+.card:first-child {
+  border-top-left-radius: 48px;
+  border-bottom-left-radius: 48px;
+}
+.card:last-child {
+  border-top-right-radius: 48px;
+  border-bottom-right-radius: 48px;
+}
+
+.cardIcon {
+  width: 56px;
+  height: 56px;
+  position: absolute;
+  left: -28px;
+  top: -28px;
+  background: transparent;
+  z-index: 2;
+}
+
+.card:last-child .cardIcon {
+  left: auto;
+  right: -28px;
+}
+
+.cardTitle {
+  font-size: 1.45rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  margin-bottom: 1.2rem;
+  margin-top: 0.5rem;
+}
+
+.cardSubtitle {
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  margin-bottom: 1.1rem;
+  color: #e0e0e0;
+}
+
+.cardText {
+  font-size: 1.05rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  line-height: 1.7;
+  color: #e0e0e0;
+}
+
+@media (max-width: 900px) {
+  .headerRow,
+  .cardsRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  .headingRight {
+    align-items: flex-start;
+    text-align: left;
+    margin-top: 1.5rem;
+  }
+  .mainHeading {
+    font-size: 2rem;
+  }
+  .card {
+    max-width: 100%;
+    min-width: 0;
+    margin-bottom: 1.5rem;
+    border-radius: 32px !important;
+  }
+  .cardIcon,
+  .card:last-child .cardIcon {
+    left: 16px;
+    right: auto;
+    top: -28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .moneyMomentsSection {
+    padding: 1.2rem 0.2rem 2rem 0.2rem;
+  }
+  .mainHeading {
+    font-size: 1.2rem;
+  }
+  .card {
+    padding: 1.2rem 0.7rem 1.5rem 0.7rem;
+    font-size: 0.98rem;
+    border-radius: 24px !important;
+  }
+  .cardTitle {
+    font-size: 1.1rem;
+  }
+  .cardSubtitle {
+    font-size: 0.95rem;
+  }
+  .cardText {
+    font-size: 0.95rem;
+  }
+  .cardIcon {
+    width: 40px;
+    height: 40px;
+    left: 8px;
+    top: -20px;
+  }
 }

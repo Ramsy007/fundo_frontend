@@ -1,0 +1,53 @@
+.container {
+  font-family: "Poppins", sans-serif;
+  background: #fff;
+  padding-top: 40px;
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+  max-width: 1200px;
+  align-items: flex-start;
+}
+
+.image {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+  margin-right: 40px;
+}
+
+.textContent {
+  flex: 1;
+}
+
+.heading {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #111;
+}
+
+.card {
+  border-top: 1px solid #ccc;
+  padding: 20px 0;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  margin: 0;
+}

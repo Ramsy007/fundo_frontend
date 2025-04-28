@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styles from "./Hero.module.css";
 
 function Hero() {
@@ -12,7 +13,10 @@ function Hero() {
             NEED CASH? <br /> BABA’S GOT YOUR <br />
             BACK. EVERY TIME.
           </div>
-          <div className={styles.hero_btn}>Get Instant Money</div>
+          <Link to={"/step1"}>
+            {" "}
+            <div className={styles.hero_btn}>Get Instant Money</div>
+          </Link>
         </div>
       </div>
     </div>
