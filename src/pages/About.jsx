@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Navbar from "../components/Navbar";
 
 const About = () => {
   useEffect(() => {
@@ -11,6 +12,10 @@ const About = () => {
   }, []);
 
   return (
+    <>
+    <div className="mt-5 flex justify-end mr-10">
+        <Navbar />
+      </div>
     <div className="bg-black">
       <div className="min-h-screen bg-white md:px-12 p-6">
 
@@ -191,6 +196,7 @@ const About = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
