@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Hero from "../components/home/Hero";
 import NeedMoneySection from "../components/home/NeedMoneySection";
 import EmiCalci from "../components/home/EmiCalci";
@@ -13,9 +12,9 @@ import LoanTypesScroll from "../components/home/LoanTypesScroll";
 
 export default function Home() {
   return (
-    <div className="bg-black pl-10 pr-10 pb-10">
-      <div className="bg-white pb-15 rounded-none rounded-b-[76px] ">
-        <div className="mt-5 flex justify-end mr-10">
+    <div className="bg-black pl-10 pr-10 pb-10 max-[425px]:pl-4 max-[425px]:pr-4">
+      <div className="bg-white pb-15 rounded-b-[50px]">
+        <div className="flex justify-end mr-10 pt-5">
           <Navbar />
         </div>
         <div className="mt-10">
@@ -41,7 +40,6 @@ export default function Home() {
           <QuickEasy />
           <HomeFooter />
         </div>
-        <div></div>
       </div>
     </div>
   );

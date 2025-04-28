@@ -19,12 +19,12 @@ const loanTypes = [
 
 const LoanTypesScroll = () => {
   return (
-    <section className="w-[67%] font-[Poppins] mt-10 mx-auto">
+    <section className=" font-[Poppins] mt-10 mx-auto">
       <div className="flex space-x-8 overflow-x-auto pb-4 scrollbar-hide">
         {loanTypes.map((loan) => (
           <div
             key={loan.title}
-            className="relative min-w-[30px] md:min-w-[30px] bg-[#07445C] rounded-[40px] px-8 py-10 flex-shrink-0 text-white shadow-lg"
+            className="relative flex gap-10 mx-10 bg-[#07445C] rounded-[40px] px-8 py-10  text-white shadow-lg"
           >
             <img
               src={loan.icon}

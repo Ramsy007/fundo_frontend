@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  /* min-height: 100vh; */
   background: #fff;
   padding: 0rem 1rem;
 }
@@ -12,9 +11,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  max-width: 1200px;
-  margin-top: 2rem;
+  max-width: 1300px;
 }
 
 .testimonialCard {
@@ -27,14 +24,21 @@
   line-height: 1.7;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
   position: relative;
-  width: 100%;
-  max-width: 900px;
+  max-width: 1300px;
 }
 
 .quote {
-  margin-bottom: 1.5rem;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 30px;
+  line-height: 60px;
+  letter-spacing: 5px;
+  color: #ffffff;
+  /* margin-bottom: 1.5rem;
   font-weight: 400;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.01em; */
 }
 
 .author {
@@ -45,15 +49,12 @@
 }
 
 .babaFace {
-  width: 90px;
-  height: 90px;
+  width: 150px;
   object-fit: contain;
   margin-top: -45px;
   margin-bottom: 1.2rem;
   z-index: 2;
-  background: #fff;
   border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   position: relative;
 }
 

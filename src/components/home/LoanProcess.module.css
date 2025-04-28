@@ -7,13 +7,11 @@
 
 .heading {
   text-align: left;
-  font-family: "Poppins", sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 60px;
   line-height: 60px;
   letter-spacing: 12px;
-  color: #000000;
 }
 
 .steps {

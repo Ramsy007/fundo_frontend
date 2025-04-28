@@ -4,50 +4,54 @@
   padding-top: 40px;
   padding-left: 40px;
   padding-right: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .content {
   display: flex;
-  max-width: 1200px;
-  align-items: flex-start;
+  align-items: center;
+  gap: 0;
 }
 
 .image {
-  max-width: 400px;
-  width: 100%;
+  width: 40rem;
   height: auto;
-  margin-right: 40px;
+  z-index: 2;
+  /* margin-right: 40px; */
 }
 
 .textContent {
   flex: 1;
+  margin-left: -150px;
+  z-index: 1;
 }
 
 .heading {
+  text-align: left;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
   font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 30px;
-  color: #111;
+  line-height: 60px;
+  letter-spacing: 10px;
+  text-transform: uppercase;
 }
 
 .card {
-  border-top: 1px solid #ccc;
-  padding: 20px 0;
+  border-top: 2px solid #ccc;
+  padding: 30px 0;
 }
 
 .title {
-  font-size: 18px;
+  font-size: 30px;
   font-weight: 600;
   color: #000;
   margin: 0;
+  padding-left: 100px;
 }
 
 .subtitle {
-  font-size: 16px;
+  font-size: 30px;
   font-weight: 400;
   color: #333;
   margin: 0;
+  padding-left: 100px;
 }

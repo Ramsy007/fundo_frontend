@@ -10,11 +10,13 @@ function Hero() {
         </div>
         <div className={styles.hero__text}>
           <div className={styles.hero_desc}>
-            NEED CASH? <br /> BABA’S GOT YOUR <br />
-            BACK. EVERY TIME.
+            <span>NEED CASH?</span> <br />
+            <div className="mb-5"></div>
+            <span>BABA’S GOT YOUR</span> <br />
+            <div className="mb-5"></div>
+            <span>BACK. EVERY TIME.</span>
           </div>
           <Link to={"/step1"}>
-            {" "}
             <div className={styles.hero_btn}>Get Instant Money</div>
           </Link>
         </div>

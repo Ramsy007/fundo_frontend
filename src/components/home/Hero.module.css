@@ -3,8 +3,7 @@
   height: 90dvh;
   background: #971201 0% 0% no-repeat padding-box;
   border: 1px solid #707070;
-  border-radius: 72px;
-
+  border-radius: 45px;
   margin-left: auto;
   margin-right: 2rem;
   position: relative;
@@ -51,14 +50,14 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
-  padding-top: 5rem;
+  padding-top: 2rem;
   padding-right: 5rem;
   padding-bottom: 5rem;
   height: 100%;
 }
 
 .img_logo_container {
-  width: 15rem;
+  width: 12rem;
   opacity: 0;
   transform: scale(0.95) translateY(30px);
   animation: fadeInUp 0.9s 0.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
@@ -86,7 +85,7 @@
   text-align: right;
   font-family: "Poppins", sans-serif;
   font-weight: 800;
-  font-size: 50px;
+  font-size: 45px;
   line-height: 60px;
   letter-spacing: 12px;
   color: #ffffff;
@@ -95,6 +94,14 @@
   opacity: 0;
   transform: translateY(40px);
   animation: fadeInUp 1s 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+.hero_desc span {
+  background: #971201;
+  padding: 0.2rem 1.5rem;
+  display: inline;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .hero_btn {
@@ -122,4 +129,11 @@
   color: #971201;
   transform: scale(1.05);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 1055px) {
+  .hero {
+    height: 80dvh;
+    margin-right: 2rem;
+  }
 }
