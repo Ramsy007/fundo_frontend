@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Navbar from "../components/Navbar";
+import  Navbar  from "../components/Navbar";
 
 const About = () => {
   useEffect(() => {
@@ -13,9 +13,16 @@ const About = () => {
 
   return (
     <>
-    <div className="mt-5 flex justify-end mr-10">
+    <div className="absolute top-6 left-8 z-50">
+      <img
+        src="./logo.png" // Add your logo image path here
+        alt="Fundo Baba Logo"
+        className="w-[120px] h-auto"
+      />
+    </div>
+    <div className="flex justify-end mr-10 mt-5">
         <Navbar />
-      </div>
+    </div>
     <div className="bg-black">
       <div className="min-h-screen bg-white md:px-12 p-6">
 

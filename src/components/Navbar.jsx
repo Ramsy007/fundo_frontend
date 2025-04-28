@@ -17,7 +17,7 @@ function Navbar() {
         Home
       </NavLink>
       <NavLink
-        to="/playground"
+        to="/howitworks"
         className={({ isActive }) =>
           `pb-1 text-black font-semibold text-[15px] leading-[39px] font-poppins tracking-[5.2px] ${
             isActive
