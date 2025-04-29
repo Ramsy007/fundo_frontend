@@ -1,6 +1,6 @@
-import React from 'react';
-import PhoneIcon from '../assets/howitworks/icon-1.png'; // Correct path adjust kar lena agar folder structure alag hai
-import Navbar from '../components/Navbar';
+import React from "react";
+import PhoneIcon from "./../../assets/howitworks/icon-1.png";
+import Navbar from "./../../components/Navbar";
 
 export default function FinancialAppPromo() {
   return (
@@ -19,14 +19,19 @@ export default function FinancialAppPromo() {
 
         <div className="flex justify-end">
           <div className="bg-rose-100/70 rounded-2xl p-14 w-[80%] relative overflow-visible">
-
             {/* Phone Icon */}
             <div className="absolute -bottom-20 -left-30 z-10">
-              <img src={PhoneIcon} alt="Phone Icon" className="w-75 h-80 object-contain" />
+              <img
+                src={PhoneIcon}
+                alt="Phone Icon"
+                className="w-75 h-80 object-contain"
+              />
             </div>
 
             <div className="pl-24">
-              <h2 className="text-3xl font-extrabold text-gray-900 mb-4">DOWNLOAD THE APP</h2>
+              <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
+                DOWNLOAD THE APP
+              </h2>
 
               <p className="text-xl font-medium mb-6 text-gray-800">
                 From chai-money to chaos-money — Baba's your paisa pal.

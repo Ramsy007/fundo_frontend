@@ -19,26 +19,26 @@ const loanTypes = [
 
 const LoanTypesScroll = () => {
   return (
-    <section className=" font-[Poppins] mt-10 mx-auto">
-      <div className="flex space-x-8 overflow-x-auto pb-4 scrollbar-hide">
+    <section className="font-[Poppins] mt-8 md:mt-10 w-full max-w-full">
+      <div className="flex md:justify-center space-x-6 md:space-x-8 overflow-x-auto pb-4 scrollbar-hide px-2 md:px-8">
         {loanTypes.map((loan) => (
           <div
             key={loan.title}
-            className="relative flex gap-10 mx-10 bg-[#07445C] rounded-[40px] px-8 py-10  text-white shadow-lg"
+            className="relative flex gap-6 md:gap-10 min-w-[85vw] sm:min-w-[400px] md:min-w-[420px] lg:min-w-[520px] xl:min-w-[600px] max-w-[95vw] md:max-w-[420px] lg:max-w-[520px] xl:max-w-[600px] bg-[#07445C] rounded-2xl md:rounded-[40px] px-4 py-6 md:px-8 md:py-10 text-white shadow-lg flex-shrink-0"
           >
             <img
               src={loan.icon}
               alt="icon"
-              className="absolute -left-10 top-8 w-16 h-16 md:w-20 md:h-20 object-contain z-10 bg-transparent"
+              className="absolute -left-6 top-4 w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain z-10 bg-transparent"
             />
-            <div className="pl-10">
-              <h2 className="text-sm md:text-sm tracking-widest font-semibold mb-4">
+            <div className="pl-8 md:pl-10">
+              <h2 className="text-base sm:text-lg md:text-xl tracking-widest font-semibold mb-2 md:mb-4">
                 {loan.title}
               </h2>
-              <p className="text-base md:text-lg tracking-wide mb-3 opacity-80">
+              <p className="text-sm sm:text-base md:text-lg tracking-wide mb-2 md:mb-3 opacity-80">
                 {loan.subtitle}
               </p>
-              <p className="text-base md:text-base tracking-wide opacity-80">
+              <p className="text-xs sm:text-sm md:text-base tracking-wide opacity-80">
                 {loan.description}
               </p>
             </div>

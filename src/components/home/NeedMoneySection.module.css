@@ -17,20 +17,35 @@
 }
 
 .heading_primary {
-  font-family: "Poppins", sans-serif;
   font-weight: 300;
   font-size: 40px;
   letter-spacing: 5px;
-  color: #971201; /* Dark red like the image */
+  color: #971201;
   margin-bottom: 10px;
 }
 
 .subtext {
-  font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 28px;
 
   color: #000000;
   line-height: 1.5;
   letter-spacing: 4.8px;
+}
+
+@media (max-width: 425px) {
+  .heading_primary {
+    font-weight: 300;
+    font-size: 30px;
+    letter-spacing: 5px;
+    margin-bottom: 10px;
+  }
+
+  .subtext {
+    padding: 0 10px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.5;
+    letter-spacing: 3px;
+  }
 }

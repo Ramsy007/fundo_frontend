@@ -1,15 +1,18 @@
-import React from 'react';
-import BabaIcon from '../assets/howitworks/icon-4.png';
+import React from "react";
+import BabaIcon from "./../../assets/howitworks/icon-4.png";
 
 export default function EligibilityPromo() {
   return (
     <div className="bg-white p-8 mt-40 w-full">
       <div className="flex justify-end">
         <div className="bg-rose-100/70 rounded-3xl p-16 w-[90%] relative overflow-visible">
-          
           {/* Baba Icon */}
           <div className="absolute -bottom-40 -left-70 z-10">
-            <img src={BabaIcon} alt="Baba on Bike Icon" className="w-140 h-140 object-contain" />
+            <img
+              src={BabaIcon}
+              alt="Baba on Bike Icon"
+              className="w-140 h-140 object-contain"
+            />
           </div>
 
           <div className="w-[55%]  pl-40">
@@ -29,14 +32,13 @@ export default function EligibilityPromo() {
                   • Age between <span className="font-bold">21 and 58</span>
                 </li>
                 <li className="flex items-center">
-                  • At least <span className="font-bold">₹40,000 monthly income</span>
+                  • At least{" "}
+                  <span className="font-bold">₹40,000 monthly income</span>
                 </li>
                 <li className="flex items-center">
                   • Internet-enabled bank account
                 </li>
-                <li className="flex items-center">
-                  • Valid Aadhaar + PAN
-                </li>
+                <li className="flex items-center">• Valid Aadhaar + PAN</li>
                 <li className="flex items-center">
                   • And yes... you're in India
                 </li>
@@ -51,4 +53,4 @@ export default function EligibilityPromo() {
       </div>
     </div>
   );
-} 
+}

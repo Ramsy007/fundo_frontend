@@ -12,7 +12,7 @@ import LoanTypesScroll from "../components/home/LoanTypesScroll";
 
 export default function Home() {
   return (
-    <div className="bg-black pl-10 pr-10 pb-10 max-[425px]:pl-4 max-[425px]:pr-4">
+    <div className="bg-black pl-10 pr-10 pb-10 max-[425px]:pl-2 max-[425px]:pr-2">
       <div className="bg-white pb-15 rounded-b-[50px]">
         <div className="flex justify-end mr-10 pt-5">
           <Navbar />
@@ -30,7 +30,7 @@ export default function Home() {
           <MoneyMoments />
         </div>
         <LoanTypesScroll />
-        <div className="mt-30 pl-10 pr-10">
+        <div className="mt-30 pl-10 pr-10 max-[425px]:pl-2 max-[425px]:pr-2">
           <TrustBaba />
         </div>
         <div className="mt-30">

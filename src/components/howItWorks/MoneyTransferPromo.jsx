@@ -1,15 +1,18 @@
-import React from 'react';
-import WalletIcon from '../assets/howitworks/icon-3.png';
+import React from "react";
+import WalletIcon from "./../../assets/howitworks/icon-3.png";
 
 export default function MoneyTransferPromo() {
   return (
     <div className="bg-white p-8 mt-40 w-full">
       <div className="flex justify-end">
         <div className="bg-rose-100/70 rounded-3xl p-12 w-[90%] relative overflow-visible">
-          
           {/* Wallet Icon */}
           <div className="absolute -top-19 -left-34 z-10">
-            <img src={WalletIcon} alt="Wallet with Clock Icon" className="w-80 h-80 object-contain" />
+            <img
+              src={WalletIcon}
+              alt="Wallet with Clock Icon"
+              className="w-80 h-80 object-contain"
+            />
           </div>
 
           <div className="pl-32">
@@ -33,7 +36,8 @@ export default function MoneyTransferPromo() {
               </p>
 
               <p className="text-2xl text-gray-800">
-                Before you can say <span className="font-bold">"arre waah!"</span>
+                Before you can say{" "}
+                <span className="font-bold">"arre waah!"</span>
               </p>
             </div>
           </div>
@@ -41,4 +45,4 @@ export default function MoneyTransferPromo() {
       </div>
     </div>
   );
-} 
+}

@@ -11,9 +11,9 @@ function Hero() {
         <div className={styles.hero__text}>
           <div className={styles.hero_desc}>
             <span>NEED CASH?</span> <br />
-            <div className="mb-5"></div>
+            <div className="mb-5 max-[425px]:mb-1"></div>
             <span>BABA’S GOT YOUR</span> <br />
-            <div className="mb-5"></div>
+            <div className="mb-5 max-[425px]:mb-1"></div>
             <span>BACK. EVERY TIME.</span>
           </div>
           <Link to={"/step1"}>

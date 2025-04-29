@@ -1,9 +1,10 @@
-import React from 'react'
-import FinancialAppPromo from './FinancialAppPromo'
-import MoneyTransferPromo from './MoneyTransferPromo'
-import DetailsFormPromo from './DetailsFormPromo'
-import EligibilityPromo from './EligibilityPromo'
-import LoanDetailsPromo from './LoanDetailsPromo'
+import React from "react";
+
+import MoneyTransferPromo from "../components/howItWorks/MoneyTransferPromo";
+import DetailsFormPromo from "../components/howItWorks/DetailsFormPromo";
+import EligibilityPromo from "../components/howItWorks/EligibilityPromo";
+import LoanDetailsPromo from "../components/howItWorks/LoanDetailsPromo";
+import FinancialAppPromo from "../components/howItWorks/FinancialAppPromo";
 
 export const HowItWorks = () => {
   return (
@@ -14,7 +15,7 @@ export const HowItWorks = () => {
       <EligibilityPromo />
       <LoanDetailsPromo />
     </>
-  )
-}
+  );
+};
 
-export default HowItWorks
+export default HowItWorks;

@@ -1,15 +1,18 @@
-import React from 'react';
-import FormIcon from '../assets/howitworks/icon-2.png';
+import React from "react";
+import FormIcon from "./../../assets/howitworks/icon-2.png";
 
 export default function DetailsFormPromo() {
   return (
     <div className="bg-white p-8 mt-40 w-full">
       <div>
         <div className="bg-rose-100/70 rounded-3xl p-12 w-[90%] relative overflow-visible">
-          
           {/* Form Icon */}
           <div className="absolute -top-19 -right-20 z-10">
-            <img src={FormIcon} alt="Form Checklist Icon" className="w-80 h-80 object-contain" />
+            <img
+              src={FormIcon}
+              alt="Form Checklist Icon"
+              className="w-80 h-80 object-contain"
+            />
           </div>
 
           <div className="pl-32">
@@ -32,7 +35,8 @@ export default function DetailsFormPromo() {
                 <p className="text-2xl text-gray-800">
                   No photocopies. No queues.
                   <br />
-                  No awkward calls. <span className="font-bold">Baba's cool like that.</span>
+                  No awkward calls.{" "}
+                  <span className="font-bold">Baba's cool like that.</span>
                 </p>
               </div>
             </div>
@@ -41,4 +45,4 @@ export default function DetailsFormPromo() {
       </div>
     </div>
   );
-} 
+}

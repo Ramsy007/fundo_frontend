@@ -57,7 +57,7 @@ function Navbar() {
 
       {/* Hamburger Icon for Mobile */}
       <button
-        className="md:hidden flex items-center px-2 py-1 text-3xl text-black focus:outline-none"
+        className="md:hidden flex items-center px-2 py-1 mr-[-30px] text-3xl text-black focus:outline-none"
         onClick={() => setSidebarOpen(true)}
         aria-label="Open menu"
       >
