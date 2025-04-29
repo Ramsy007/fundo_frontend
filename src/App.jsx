@@ -9,6 +9,7 @@ import OTPMobile from "./pages/OTPMobile";
 import Email from "./pages/Email";
 import Employment from "./pages/Employment";
 import OTPEmail from "./pages/OTPEmail";
+import UploadBankStatement from "./pages/UploadBankStatement";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/email" element={<Email />} />
         <Route path="/employment" element={<Employment />} />
         <Route path="/otp-email" element={<OTPEmail />} />
+        <Route path="/upload-bank-statement" element={<UploadBankStatement />} />
       </Routes>
     </BrowserRouter>
   );
