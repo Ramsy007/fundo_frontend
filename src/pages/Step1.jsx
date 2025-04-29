@@ -32,7 +32,7 @@ export default function Step1() {
       transition={{ duration: 0.5 }}
     >
       <motion.div 
-        className="bg-[#a11b0a] mb-4 md:mb-6 rounded-b-3xl"
+        className="bg-[#971201] mb-4 md:mb-6 rounded-b-3xl"
         initial={{ scale: 0.95 }}
         animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 100 }}
@@ -85,13 +85,14 @@ export default function Step1() {
             <motion.div
               className="absolute left-0 top-0 z-40"
               style={{ marginLeft: "325px", marginTop: "-20px" }}
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+              initial={{ x: -200, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
               transition={{ 
                 type: "spring",
-                stiffness: 100,
-                damping: 15,
-                delay: 1.4
+                stiffness: 50,
+                damping: 20,
+                mass: 2,
+                delay: 1.2
               }}
               whileHover={{ scale: 1.1 }}
             >
@@ -112,7 +113,7 @@ export default function Step1() {
                 type: "spring",
                 stiffness: 100,
                 damping: 15,
-                delay: 1.1
+                delay: 0.5
               }}
               whileHover={{ 
                 boxShadow: "0 0 20px rgba(151, 18, 1, 0.3)",
@@ -123,7 +124,7 @@ export default function Step1() {
                 className="text-center mb-4 md:mb-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 2.6 }}
+                transition={{ delay: 0.6 }}
               >
                 <h2 className="text-lg md:text-xl font-bold text-[#222] mb-1">
                   Step into Baba's zone. Quick PAN. Faster Loan.
@@ -201,7 +202,7 @@ export default function Step1() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
+                transition={{ delay: 1.1 }}
                 className="flex justify-center"
               >
                 <StepsList />
@@ -213,7 +214,7 @@ export default function Step1() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
+                transition={{ delay: 1.1 }}
                 className="w-auto"
               >
                 <StepsList />
@@ -240,7 +241,7 @@ export default function Step1() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.3 }}
           >
             <motion.div 
               className="bg-white rounded-2xl p-6 md:p-8 max-w-md w-full mx-4 shadow-2xl text-center"
