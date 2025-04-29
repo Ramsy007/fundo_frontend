@@ -15,7 +15,7 @@
   bottom: 0;
   width: 600px;
   height: 600px;
-  background: url("./public/images/calcibaba.png") no-repeat center/contain;
+  background: url("/images/calcibaba.png") no-repeat center/contain;
   z-index: 5;
 }
 
@@ -204,5 +204,12 @@
     width: 40px;
     height: 40px;
     font-size: 20px;
+  }
+
+  .emiCalculator::before {
+    content: none;
+    background: none;
+    width: 0;
+    height: 0;
   }
 }

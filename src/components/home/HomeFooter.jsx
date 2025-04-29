@@ -1,4 +1,6 @@
 import styles from "./HomeFooter.module.css";
+import babaFace from "../../assets/Pages/Home/baba1.png";
+import logo from "../../assets/logo.png";
 
 function HomeFooter() {
   return (
@@ -11,17 +13,9 @@ function HomeFooter() {
           </p>
           <p className={styles.author}>Aakash M., Delhi</p>
         </div>
-        <img
-          src={"./src/assets/Pages/Home/baba1.png"}
-          alt="Baba Face"
-          className={styles.babaFace}
-        />
+        <img src={babaFace} alt="Baba Face" className={styles.babaFace} />
       </div>
-      <img
-        src={"./src/assets/logo.png"}
-        alt="Fundo Baba Logo"
-        className={styles.logo}
-      />
+      <img src={logo} alt="Fundo Baba Logo" className={styles.logo} />
     </div>
   );
 }

@@ -23,7 +23,7 @@
   left: -30px;
   width: 1000px;
   height: 90dvh;
-  background: url("./public/images/fundobabaHero.png") no-repeat left center;
+  background: url("/images/fundobabaHero.png") no-repeat left center;
   background-size: contain;
   z-index: 1;
   pointer-events: none;
@@ -125,6 +125,36 @@
   color: #971201;
   transform: scale(1.05);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes pulseText {
+  0% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+}
+
+.coming_soon {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background-color: #ffffff;
+  color: #971201;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 50px;
+  animation: pulseText 2s infinite ease-in-out;
+  z-index: 2;
 }
 
 @media (max-width: 1055px) {

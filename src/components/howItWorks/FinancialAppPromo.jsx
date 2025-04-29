@@ -1,11 +1,12 @@
 import React from "react";
 import PhoneIcon from "./../../assets/howitworks/icon-1.png";
 import Navbar from "./../../components/Navbar";
-
+import Logo from "./../../assets/Logo.png";
 export default function FinancialAppPromo() {
   return (
     <>
-      <div className="mt-5 flex justify-end mr-10">
+      <div className="flex justify-between items-center gap-4 mr-10 pt-5 pl-5">
+        <img src={Logo} alt="Logo" className="h-10 w-auto" />
         <Navbar />
       </div>
       <div className="bg-white p-1 sm:p-8 w-full">
