@@ -16,9 +16,10 @@ function Hero() {
             <div className="mb-5 max-[425px]:mb-1"></div>
             <span>BACK. EVERY TIME.</span>
           </div>
-          <Link to={"/step1"}>
+          {/* <Link to={"/step1"}>
             <div className={styles.hero_btn}>Get Instant Money</div>
-          </Link>
+          </Link> */}
+          <div className={styles.coming_soon}>Coming Soon...</div>
         </div>
       </div>
     </div>

@@ -9,12 +9,14 @@ import QuickEasy from "../components/home/QuickEasy";
 import HomeFooter from "../components/home/HomeFooter";
 import MoneyMoments from "../components/home/MoneyMoments";
 import LoanTypesScroll from "../components/home/LoanTypesScroll";
+import Logo from "../assets/Logo.png";
 
 export default function Home() {
   return (
     <div className="bg-black pl-10 pr-10 pb-10 max-[425px]:pl-2 max-[425px]:pr-2">
       <div className="bg-white pb-15 rounded-b-[50px]">
-        <div className="flex justify-end mr-10 pt-5">
+        <div className="flex justify-between items-center gap-4 mr-10 pt-5 pl-5">
+          <img src={Logo} alt="Logo" className="h-10 w-auto" />
           <Navbar />
         </div>
         <div className="mt-10">

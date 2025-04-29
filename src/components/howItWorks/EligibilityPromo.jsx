@@ -3,31 +3,31 @@ import BabaIcon from "./../../assets/howitworks/icon-4.png";
 
 export default function EligibilityPromo() {
   return (
-    <div className="bg-white p-8 mt-40 w-full">
+    <div className="bg-white p-2 sm:p-8 mt-20 sm:mt-40 w-full">
       <div className="flex justify-end">
-        <div className="bg-rose-100/70 rounded-3xl p-16 w-[90%] relative overflow-visible">
+        <div className="bg-rose-100/70 rounded-xl sm:rounded-3xl p-1 xs:p-8 sm:p-16 w-[90%] relative overflow-visible">
           {/* Baba Icon */}
-          <div className="absolute -bottom-40 -left-70 z-10">
+          <div className="absolute -bottom-20 xs:-bottom-28 sm:-bottom-40 -left-17 xs:-left-40 sm:-left-70 z-10">
             <img
               src={BabaIcon}
               alt="Baba on Bike Icon"
-              className="w-140 h-140 object-contain"
+              className="w-37 h-37 xs:w-80 xs:h-80 sm:w-140 sm:h-140 object-contain"
             />
           </div>
 
-          <div className="w-[55%]  pl-40">
-            <h2 className="text-4xl font-bold tracking-widest text-gray-900 mb-1 leading-tight">
+          <div className="pl-10 xs:pl-20 sm:pl-40">
+            <h2 className="text-base xs:text-2xl sm:text-4xl font-bold tracking-widest text-gray-900 mb-1 leading-tight">
               WHO'S ELIGIBLE?
               <br />
-              <span className="text-3xl">(SPOILER: PROBABLY YOU)</span>
+              <span className="text-sm xs:text-xl sm:text-3xl">(SPOILER: PROBABLY YOU)</span>
             </h2>
 
-            <div className="mt-12">
-              <p className="text-2xl text-gray-800 mb-3">
+            <div className="mt-4 xs:mt-8 sm:mt-12">
+              <p className="text-xs xs:text-base sm:text-2xl text-gray-800 mb-1 xs:mb-2 sm:mb-3">
                 You're good to go if you have:
               </p>
 
-              <ul className="space-y-3 text-2xl text-gray-800">
+              <ul className="space-y-1 xs:space-y-2 sm:space-y-3 text-xs xs:text-base sm:text-2xl text-gray-800">
                 <li className="flex items-center">
                   • Age between <span className="font-bold">21 and 58</span>
                 </li>
@@ -44,7 +44,7 @@ export default function EligibilityPromo() {
                 </li>
               </ul>
 
-              <p className="text-2xl text-gray-800 mt-12">
+              <p className="text-xs xs:text-base sm:text-2xl text-gray-800 mt-4 xs:mt-8 sm:mt-12">
                 Baba's loyal to desi bros & behens only.
               </p>
             </div>
