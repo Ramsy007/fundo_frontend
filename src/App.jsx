@@ -10,7 +10,10 @@ import Email from "./pages/Email";
 import Employment from "./pages/Employment";
 import OTPEmail from "./pages/OTPEmail";
 import UploadBankStatement from "./pages/UploadBankStatement";
-
+import Eligibleupto from "./pages/Eligibleupto";
+import Aadhar from "./pages/Aadhar";
+import OTPAadhar from "./pages/OTPAadhar";
+import Esign from "./pages/Esign";
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +29,10 @@ function App() {
         <Route path="/employment" element={<Employment />} />
         <Route path="/otp-email" element={<OTPEmail />} />
         <Route path="/upload-bank-statement" element={<UploadBankStatement />} />
+        <Route path="/eligibleupto" element={<Eligibleupto />} />
+        <Route path="/aadhar" element={<Aadhar />} />
+        <Route path="/otp-aadhar" element={<OTPAadhar />} />
+        <Route path="/esign" element={<Esign />} />
       </Routes>
     </BrowserRouter>
   );

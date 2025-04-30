@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function FooterStep() {
   return (
-    <footer className="bg-black text-white py-4 md:py-8 px-4 md:px-6 flex flex-col md:flex-row items-center justify-between rounded-t-3xl">
+    <footer className="bg-black text-white py-6 md:py-8 px-4 md:px-6 flex flex-col md:flex-row items-center justify-between rounded-t-3xl">
       <div className="text-xs opacity-70">
         Terms & Condition &nbsp; | &nbsp; Privacy Policy
       </div>
