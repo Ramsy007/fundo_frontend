@@ -51,20 +51,18 @@ export default function Eligibleupto() {
           </div>
 
           {/* Main Section */}
-          <div className="flex flex-1 items-center justify-center relative flex-col">
+          <div className="flex flex-1 items-center justify-center relative flex-col px-6 sm:px-8 md:px-0">
             {/* Form Card - Outer Container */}
             <div
-              className="relative bg-gradient-to-b from-[#D9D9D9] to-[#CCCCCC] rounded-4xl shadow-xl px-3 py-3 sm:px-4 sm:py-4 md:px-6 md:py-6 w-full max-w-[240px] sm:max-w-[280px] md:max-w-[400px] flex flex-col items-center mx-2 sm:mx-4 md:mx-0"
+              className="relative bg-gradient-to-b from-[#D9D9D9] to-[#CCCCCC] rounded-4xl shadow-xl px-3 py-3 sm:px-4 sm:py-4 md:px-6 md:py-6 w-full max-w-[240px] sm:max-w-[280px] md:max-w-[400px] flex flex-col items-center"
               style={{ minHeight: "200px" }}
             >
               {/* BabaStep Image */}
-              <div
-                className="absolute -top-10 -left-3 md:-top-10 md:-left-16 z-40"
-              >
+              <div className="absolute -top-20 -left-12 sm:-top-20 sm:-left-10 md:-top-20 md:-left-40 z-40">
                 <img 
-                  src="/Babastep.png" 
+                  src="/Babaeligible.png" 
                   alt="Baba" 
-                  className="w-[60px] h-[60px] sm:w-[65px] sm:h-[65px] md:w-[90px] md:h-[90px] lg:w-[120px] lg:h-[120px] object-contain drop-shadow-2xl" 
+                  className="w-[130px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[180px] md:h-[180px] lg:w-[220px] lg:h-[220px] object-contain drop-shadow-2xl" 
                 />
               </div>
 

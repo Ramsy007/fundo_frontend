@@ -47,7 +47,7 @@ export default function Navbarsteps() {
       )}
 
       {/* Desktop Navigation */}
-      <div className="hidden md:flex items-center space-x-8">
+      <div className="hidden md:flex items-center space-x-0">
         {/* Pill-shaped nav */}
         <div className="flex items-center bg-[#d6a9a2] rounded-full px-6 py-2 space-x-6">
           <a href="#" className="text-[#7a2a1b] font-semibold text-base">Home</a>

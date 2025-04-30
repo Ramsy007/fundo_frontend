@@ -49,19 +49,17 @@ export default function Aadhar() {
           </div>
 
           {/* Main Section */}
-          <div className="flex flex-1 items-center justify-center relative flex-col">
+          <div className="flex flex-1 items-center justify-center relative flex-col px-4 sm:px-6 md:px-0">
             {/* Form Card */}
             <div
-              className="relative bg-[rgba(211,211,211,0.3)] backdrop-blur-sm rounded-2xl shadow-xl px-4 py-4 sm:px-6 sm:py-6 md:px-8 md:py-8 w-full max-w-[280px] sm:max-w-[320px] md:max-w-[400px] flex flex-col items-center mx-2 sm:mx-4 md:mx-0"
+              className="relative bg-white/62 backdrop-blur-sm rounded-4xl shadow-xl px-10 sm:px-14 md:px-8 py-8 md:py-12 w-full max-w-[500px] flex flex-col items-center"
             >
               {/* BabaStep Image */}
-              <div
-                className="absolute -top-10 -left-3 md:-top-10 md:-left-16 z-40"
-              >
+              <div className="absolute -top-20 -left-8 sm:-top-20 sm:-left-6 md:-top-20 md:-left-40 z-40">
                 <img 
-                  src="/Babastep.png" 
+                  src="/Babaotp.png" 
                   alt="Baba" 
-                  className="w-[60px] h-[60px] sm:w-[65px] sm:h-[65px] md:w-[90px] md:h-[90px] lg:w-[120px] lg:h-[120px] object-contain drop-shadow-2xl" 
+                  className="w-[150px] h-[120px] sm:w-[140px] sm:h-[140px] md:w-[180px] md:h-[180px] lg:w-[220px] lg:h-[220px] object-contain drop-shadow-2xl" 
                 />
               </div>
 

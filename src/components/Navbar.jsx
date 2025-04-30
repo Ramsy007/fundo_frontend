@@ -77,39 +77,29 @@ function Navbar() {
         </svg>
       </button>
 
-      {/* Sidebar Overlay */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm transition-opacity duration-300"
-          onClick={() => setSidebarOpen(true)}
-        ></div>
-      )}
-
-      {/* Sidebar */}
+      {/* Sidebar - Removed background */}
       <div
-        className={`fixed top-0 right-0 h-full w-full md:w-64 bg-white z-50 shadow-lg transform transition-transform duration-300 ease-in-out
+        className={`fixed top-0 right-0 h-full w-full md:w-64 z-50 backdrop-blur-sm transform transition-transform duration-300 ease-in-out
         ${sidebarOpen ? "translate-x-0" : "translate-x-[100%]"}`}
       >
         <div className="flex justify-end p-4">
           <button
-            className="text-2xl text-black focus:outline-none"
+            className="text-2xl text-white focus:outline-none"
             onClick={() => setSidebarOpen(false)}
             aria-label="Close menu"
           >
             &times;
           </button>
         </div>
-        <nav className="flex flex-col items-start space-y-8 mt-10  text-lg font-medium">
+        <nav className="flex flex-col items-start space-y-8 mt-10 text-lg font-medium">
           {navLinks.map((link, idx) => (
             <NavLink
               key={link.to}
               to={link.to}
               end={link.exact}
               className={({ isActive }) =>
-                `text-center py-2 ml-15  text-black font-semibold text-[18px] tracking-[5.2px] transition-all duration-500 ease-out transform translate-x-[-40px] opacity-0 sidebar-link${idx} ` +
-                (isActive
-                  ? " border-b-2 border-[#0A3D4D] font-bold"
-                  : " hover:text-[#0A3D4D] transition-colors duration-200")
+                `text-center py-2 ml-15 text-white font-semibold text-[18px] tracking-[5.2px] transition-all duration-500 ease-out transform translate-x-[-40px] opacity-0 sidebar-link${idx} hover:text-white/80 ` +
+                (isActive ? " font-bold" : "")
               }
               style={{
                 transitionDelay: `${idx * 100 + 200}ms`,
