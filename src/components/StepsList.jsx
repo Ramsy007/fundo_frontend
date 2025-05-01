@@ -3,7 +3,7 @@ import React from "react";
 const steps = [
   {
     src: "/Step1.png",
-    alt: "Eligibility Check",// Tu yahan apna address likh lena
+    alt: "Eligibility Check",
     active: true,
     label: "Eligibility Check",
   },
