@@ -3,10 +3,19 @@ import logo from "../assets/logo.png";
 import StepsList from "../components/StepsList";
 import Navbarsteps2 from "../components/home/Navbarsteps2";
 import FooterStep from "../components/FooterStep";
+import { userAPI } from "../services/api";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function OTPAadhar() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const inputsRef = useRef([]);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(30);
+  const inputRefs = useRef([]);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { aadhaarNo, accessKey } =
+    location.state || JSON.parse(sessionStorage.getItem("adharData") || "{}");
 
   const handleChange = (index, value) => {
     if (/^\d?$/.test(value)) {
@@ -14,18 +23,63 @@ export default function OTPAadhar() {
       newOtp[index] = value;
       setOtp(newOtp);
 
-      if (value && index < 5) {
-        inputsRef.current[index + 1]?.focus();
+      if (value && index < 3) {
+        inputRefs.current[index + 1]?.focus();
       }
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    console.log("1. handleSubmit started");
     e.preventDefault();
-    const otpCode = otp.join("");
-    if (otpCode.length === 6) {
-      console.log("Submitting OTP:", otpCode);
-      // Add your submission logic here
+    const otpValue = otp.join("");
+    console.log("2. OTP Value:", otpValue);
+
+    if (otpValue.length !== 6) {
+      console.log("3. Invalid OTP length");
+      setError("Please enter all 6 digits");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const data = {
+        accessKey: accessKey,
+        otp: otpValue,
+        aadhaarNo: aadhaarNo,
+      };
+
+      console.log("4. Submitting data:", data);
+      const response = await userAPI.submitAadharOTP(data);
+      console.log("5. Response received:", response);
+
+      if (response) {
+        console.log("6. Response is valid");
+        dispatch(changeTracker({ step: 4 }));
+        console.log("7. Tracker updated");
+
+        try {
+          console.log("8. Attempting navigation");
+          await navigate("/apply/e-sign", {
+            state: {
+              message: "Aadhar verification successful",
+              aadhaarNo: aadhaarNo,
+            },
+          });
+          console.log("9. Navigation successful");
+        } catch (navError) {
+          console.error("Navigation error:", navError);
+        }
+      } else {
+        console.log("10. Invalid response");
+        setError("Verification failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("11. API Error:", error);
+      setError(error.response?.data?.error || "Invalid OTP. Please try again.");
+    } finally {
+      console.log("12. Setting loading to false");
+      setIsLoading(false);
     }
   };
 
@@ -88,9 +142,9 @@ export default function OTPAadhar() {
                   disabled={otp.some((digit) => digit === "")}
                   className="w-full bg-[#243112] text-white font-semibold py-2.5 sm:py-3 md:py-4 rounded-full text-xs sm:text-sm md:text-base flex items-center justify-center gap-2 shadow hover:bg-[#243112] transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  SUBMIT
-                  <span className="bg-white rounded-full p-0.5 sm:p-1">
-                    <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#243112]" fill="currentColor" viewBox="0 0 20 20">
+                  {isLoading ? "PROCESSING..." : "SUBMIT"}
+                  <span className="bg-white rounded-full p-1">
+                    <svg className="w-4 h-4 text-[#243112]" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M10 3a1 1 0 00-1 1v10.586l-3.293-3.293a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L11 14.586V4a1 1 0 00-1-1z" />
                     </svg>
                   </span>

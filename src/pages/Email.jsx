@@ -1,26 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { userAPI } from "../services/api";
 import logo from "../assets/logo.png";
 import StepsList from "../components/StepsList";
 import Navbarsteps from "../components/home/Navbarsteps";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
+// import { useDispatch } from "react-redux";
+// import { changeTracker } from "../redux/slices/lTracherSlice";
+// import { LEAD_STAGE, leadStageToRouteMap } from "../utils/constants";
+// import useLeadStage from "../hooks/useLeadStage";
+// import PageLoader from "../components/Loader";
+
+// const curr_page_lead_stage = [
+//   LEAD_STAGE.ADD_EMPLOYMENT,
+//   LEAD_STAGE.SEND_EMAIL_OTP,
+// ];
 
 export default function Email() {
+  const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const { leadStage, isLoadingStage } = useLeadStage();
+
   const [formData, setFormData] = useState({
     personalEmail: "",
     workEmail: ""
   });
   const [errors, setErrors] = useState({
     personalEmail: "",
-    workEmail: ""
+    workEmail: "",
+    submit: ""
   });
+  const [isLoading, setIsLoading] = useState(false);
+
+  // useEffect(() => {
+  //   dispatch(changeTracker({ step: 1 }));
+  // }, [dispatch]);
+
+  // Handle lead stage navigation
+  // useEffect(() => {
+  //   if (leadStage && !isLoadingStage && !curr_page_lead_stage.includes(leadStage)) {
+  //     navigate(leadStageToRouteMap[leadStage]);
+  //   }
+  // }, [leadStage, isLoadingStage, navigate]);
 
   // Validate email
-  const validateEmail = (email, field) => {
-    if (!email) return `${field} is required`;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) return `Please enter a valid ${field.toLowerCase()}`;
-    return "";
-  };
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -33,28 +57,82 @@ export default function Email() {
     // Clear error when user starts typing
     setErrors(prev => ({
       ...prev,
-      [name]: ""
+      [name]: "",
+      submit: ""
     }));
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    const personalEmailError = validateEmail(formData.personalEmail, "Personal Email");
-    const workEmailError = validateEmail(formData.workEmail, "Work Email");
-    
-    setErrors({
-      personalEmail: personalEmailError,
-      workEmail: workEmailError
-    });
+  const validateForm = () => {
+    const newErrors = {};
 
-    if (!personalEmailError && !workEmailError) {
-      // Form is valid, proceed with submission
-      console.log("Form submitted:", formData);
-      // Add your submission logic here
+    if (!formData.personalEmail) {
+      newErrors.personalEmail = "Personal email is required";
+    } else if (!validateEmail(formData.personalEmail)) {
+      newErrors.personalEmail = "Please enter a valid personal email";
+    }
+
+    if (!formData.workEmail) {
+      newErrors.workEmail = "Office email is required";
+    } else if (!validateEmail(formData.workEmail)) {
+      newErrors.workEmail = "Please enter a valid office email";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrors(prev => ({ ...prev, submit: "" }));
+
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+    try {
+      const data = {
+        office_email: formData.workEmail,
+        personal_email: formData.personalEmail,
+      };
+
+      console.log("Sending email OTP with data:", data);
+      const response = await userAPI.sendEmailOTP(data);
+      console.log("API Response:", response);
+      
+      if (!response) {
+        throw new Error("No response from server");
+      }
+
+      if (!response.request_id) {
+        throw new Error("Invalid response: missing request_id");
+      }
+
+      const stateData = {
+        request_id: response.request_id,
+        office_email: response.office_email,
+        personal_email: response.personal_email,
+      };
+      
+      sessionStorage.setItem("emailData", JSON.stringify(stateData));
+      console.log("Navigating to OTP Email page with state:", stateData);
+      navigate("/apply/otp-email", { 
+        state: stateData
+      });
+      
+    } catch (error) {
+      console.error("Error details:", error);
+      setErrors(prev => ({
+        ...prev,
+        submit: error.message || error.response?.data?.message || "Failed to send OTP. Please try again.",
+      }));
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  // if (isLoadingStage || !leadStage) {
+  //   return <PageLoader />;
+  // }
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-white pl-0 pr-0 md:pl-6 md:pr-6 rounded-b-lg relative">
@@ -131,17 +209,30 @@ export default function Email() {
                     <p className="text-red-500 text-[8px] sm:text-xs mt-1">{errors.workEmail}</p>
                   )}
                 </div>
+
+                {errors.submit && (
+                  <p className="text-red-500 text-[8px] sm:text-xs text-center">
+                    {errors.submit}
+                  </p>
+                )}
                 
                 <button
                   type="submit"
-                  className="mt-1 w-[120px] sm:w-[140px] md:w-[160px] mx-auto flex items-center justify-center gap-2 bg-[#971201] text-white font-bold py-1.5 sm:py-2 rounded-full text-sm sm:text-base md:text-lg shadow hover:bg-[#b13a2f] transition"
+                  disabled={isLoading || !formData.personalEmail || !formData.workEmail}
+                  className="mt-1 w-[120px] sm:w-[140px] md:w-[160px] mx-auto flex items-center justify-center gap-2 bg-[#971201] text-white font-bold py-1.5 sm:py-2 rounded-full text-sm sm:text-base md:text-lg shadow hover:bg-[#b13a2f] transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  SUBMIT
-                  <span className="bg-white text-[#971201] rounded-full p-0.5 sm:p-1 ml-1">
-                    <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M6 4l8 6-8 6V4z" />
-                    </svg>
-                  </span>
+                  {isLoading ? (
+                    <span className="animate-spin">⌛</span>
+                  ) : (
+                    <>
+                      SUBMIT
+                      <span className="bg-white text-[#971201] rounded-full p-0.5 sm:p-1 ml-1">
+                        <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M6 4l8 6-8 6V4z" />
+                        </svg>
+                      </span>
+                    </>
+                  )}
                 </button>
               </form>
             </div>

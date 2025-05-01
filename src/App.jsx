@@ -1,40 +1,48 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import HowItWorks from "./pages/HowItWorks";
 import Contact from "./pages/Contact";
 import Playground from "./components/Playground";
-import Step1 from "./pages/Step1";
+import PanMobile from "./pages/PanMobile";
 import OTPMobile from "./pages/OTPMobile";
 import Email from "./pages/Email";
 import Employment from "./pages/Employment";
 import OTPEmail from "./pages/OTPEmail";
 import UploadBankStatement from "./pages/UploadBankStatement";
-import Eligibleupto from "./pages/Eligibleupto";
+import LoanAmount from "./pages/LoanAmount";
 import Aadhar from "./pages/Aadhar";
 import OTPAadhar from "./pages/OTPAadhar";
 import Esign from "./pages/Esign";
+import Dashboard from "./pages/Dashboard";
+import Congratulations from "./pages/Congratulations";
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/playground" element={<Playground />} />
-        <Route path="/howitworks" element={<HowItWorks />} />
-        <Route path="/aboutus" element={<About />} />
-        <Route path="/step1" element={<Step1 />} />
-        <Route path="/support" element={<Contact />} />
-        <Route path="/otp-mobile" element={<OTPMobile />} />
-        <Route path="/email" element={<Email />} />
-        <Route path="/employment" element={<Employment />} />
-        <Route path="/otp-email" element={<OTPEmail />} />
-        <Route path="/upload-bank-statement" element={<UploadBankStatement />} />
-        <Route path="/eligibleupto" element={<Eligibleupto />} />
-        <Route path="/aadhar" element={<Aadhar />} />
-        <Route path="/otp-aadhar" element={<OTPAadhar />} />
-        <Route path="/esign" element={<Esign />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/playground" element={<Playground />} />
+          <Route path="/howitworks" element={<HowItWorks />} />
+          <Route path="/aboutus" element={<About />} />
+          <Route path="/apply/pan-mobile" element={<PanMobile />} />
+          <Route path="/support" element={<Contact />} />
+          <Route path="/apply/otp-mobile" element={<OTPMobile />} />
+          <Route path="/apply/email" element={<Email />} />
+          <Route path="/apply/employment-status" element={<Employment />} />
+          <Route path="/apply/otp-email" element={<OTPEmail />} />
+          <Route path="/apply/upload-bank-statement" element={<UploadBankStatement />} />
+          <Route path="/apply/loan-amount" element={<LoanAmount />} />
+          <Route path="/apply/adhar-card" element={<Aadhar />} />
+          <Route path="/apply/otp-aadhar" element={<OTPAadhar />} />
+          <Route path="/apply/e-sign" element={<Esign />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/apply/congratulations-card" element={<Congratulations />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

@@ -35,7 +35,7 @@ const steps = [
 
 export default function StepsList() {
   return (
-    <div className="flex flex-row md:flex-col md:items-start space-x-4 md:space-x-0 md:space-y-6 md:ml-8 md:absolute md:right-1/2 md:translate-x-[450px] md:top-1/2 md:-translate-y-1/2 z-30">
+    <div className="flex flex-row md:flex-col md:items-start space-x-4 md:space-x-0 md:space-y-6 md:ml-8 md:absolute md:right-2/5 md:translate-x-[450px] md:top-1/2 md:-translate-y-1/2 z-30">
       {steps.map((step, idx) => (
         <div
           key={idx}

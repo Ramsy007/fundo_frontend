@@ -1,35 +1,107 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { userAPI } from "../services/api";
+// import { useDispatch } from "react-redux";
+// import { changeTracker } from "../redux/slices/lTracherSlice";
+// import { LEAD_STAGE, leadStageToRouteMap } from "../utils/constants";
+// import useLeadStage from "../hooks/useLeadStage";
+// import PageLoader from "../components/Loader";
 import logo from "../assets/logo.png";
 import StepsList from "../components/StepsList";
 import Navbarsteps2 from "../components/home/Navbarsteps2";
 import FooterStep from "../components/FooterStep";
 
+// const curr_page_lead_stage = [
+//   LEAD_STAGE.LOAN_REQUESTED,
+//   LEAD_STAGE.SEND_AADHAAR_OTP,
+// ];
+
 export default function Aadhar() {
+  const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const { leadStage, isLoadingStage, errorStage } = useLeadStage();
   const [aadharNumber, setAadharNumber] = useState('');
+  const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
+  // useEffect(() => {
+  //   dispatch(changeTracker({ step: 3 }));
+  // }, [dispatch]);
+
+  const validateAdhar = (adhar) => {
+    const adharRegex = /^\d{12}$/;
+    return adharRegex.test(adhar);
+  };
 
   const handleAadharChange = (e) => {
-    let value = e.target.value;
-    // Remove any non-numeric characters and spaces
-    value = value.replace(/[^0-9]/g, '');
-    
-    if (value.length <= 12) {
-      setAadharNumber(value);
+    const value = e.target.value.replace(/\s/g, ""); // Remove spaces
+    if (/^\d{0,12}$/.test(value)) {
+      // Format the number as 4-4-4
+      let formattedValue = value;
+      if (value.length > 4) {
+        formattedValue = value.slice(0, 4) + " " + value.slice(4);
+      }
+      if (value.length > 8) {
+        formattedValue = formattedValue.slice(0, 9) + " " + formattedValue.slice(9);
+      }
+      setAadharNumber(formattedValue);
+      setErrors((prev) => ({ ...prev, adhar: "" }));
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (aadharNumber.length === 12) {
-      console.log("Submitting Aadhar:", aadharNumber);
-      // Add your submission logic here
+    const newErrors = {};
+    const adharNumberClean = aadharNumber.replace(/\s/g, "");
+
+    if (!validateAdhar(adharNumberClean)) {
+      newErrors.adhar = "Please enter a valid 12-digit Aadhar number";
+    }
+
+    if (Object.keys(newErrors).length === 0) {
+      try {
+        setIsLoading(true);
+        const data = {
+          aadhaarNo: adharNumberClean,
+        };
+
+        console.log("Initiating KYC with data:", data);
+        const response = await userAPI.initiateKYC(data);
+        console.log("KYC Initiation Response:", response);
+
+        if (response) {
+          // Save data to sessionStorage
+          const stateData = {
+            aadhaarNo: adharNumberClean,
+            accessKey: response.accessKey,
+          };
+          sessionStorage.setItem("adharData", JSON.stringify(stateData));
+
+          navigate("/apply/otp-aadhar", {
+            state: stateData
+          });
+        }
+      } catch (error) {
+        console.error("KYC Initiation Error:", error);
+        setErrors((prev) => ({
+          ...prev,
+          submit: error.response?.data?.message || "Failed to process. Please try again.",
+        }));
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setErrors(newErrors);
     }
   };
 
-  const formatAadhar = (value) => {
-    if (!value) return '';
-    // Add spaces after every 4 digits
-    return value.replace(/(.{4})/g, '$1 ').trim();
-  };
+  // if (!leadStage) {
+  //   return <PageLoader />;
+  // }
+
+  // if (leadStage && !curr_page_lead_stage.includes(leadStage)) {
+  //   navigate(leadStageToRouteMap[leadStage]);
+  // }
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-white pl-0 pr-0 md:pl-6 md:pr-6 rounded-b-lg relative">
@@ -79,25 +151,33 @@ export default function Aadhar() {
                     inputMode="numeric"
                     pattern="[0-9]*"
                     placeholder="XXXX XXXX XXXX"
-                    value={formatAadhar(aadharNumber)}
+                    value={aadharNumber}
                     onChange={handleAadharChange}
-                    className="w-full px-4 py-2 sm:py-3 text-center rounded-lg border-2 border-gray-300 focus:outline-none focus:border-[#243112] bg-transparent text-gray-700 text-lg sm:text-xl font-medium tracking-wider"
+                    className={`w-full px-4 py-2 sm:py-3 text-center rounded-lg border-2 ${
+                      errors.adhar ? "border-red-500" : "border-gray-300"
+                    } focus:outline-none focus:border-[#243112] bg-transparent text-black text-lg sm:text-xl font-medium tracking-wider`}
                     maxLength={14}
                   />
+                  {errors.adhar && (
+                    <p className="text-red-500 text-xs mt-1">{errors.adhar}</p>
+                  )}
                 </div>
 
                 <button
                   type="submit"
-                  disabled={aadharNumber.length !== 12}
+                  disabled={aadharNumber.length !== 12 || isLoading}
                   className="w-full bg-[#243112] text-white font-semibold py-2 sm:py-3 rounded-full text-sm sm:text-base flex items-center justify-center gap-2 shadow hover:bg-[#2f4117] transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  SUBMIT
+                  {isLoading ? "PROCESSING..." : "SUBMIT"}
                   <span className="bg-white rounded-full p-1">
                     <svg className="w-4 h-4 text-[#243112]" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M10 3a1 1 0 00-1 1v10.586l-3.293-3.293a1 1 0 10-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 00-1.414-1.414L11 14.586V4a1 1 0 00-1-1z" />
                     </svg>
                   </span>
                 </button>
+                {errors.submit && (
+                  <p className="text-red-500 text-xs mt-2 text-center">{errors.submit}</p>
+                )}
               </form>
             </div>
 

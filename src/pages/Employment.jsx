@@ -1,10 +1,15 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { userAPI } from "../services/api";
 import logo from "../assets/logo.png";
 import StepsList from "../components/StepsList";
 import Navbarsteps from "../components/home/Navbarsteps";
 import { motion } from "framer-motion";
 
-export default function WorkStatus() {
+export default function EmploymentStatus() {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const [workStatus, setWorkStatus] = useState("");
   const [formData, setFormData] = useState({
     companyName: "",
@@ -73,16 +78,39 @@ export default function WorkStatus() {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Add this to prevent default form submission
+    console.log("handleSubmit called");
     
     const formErrors = validateForm();
     setErrors(formErrors);
 
     if (Object.keys(formErrors).length === 0) {
-      // Form is valid, proceed with submission
-      console.log("Form submitted:", { workStatus, ...formData });
-      // Add your submission logic here
+      setIsLoading(true);
+      setError("");
+      
+      try {
+        console.log("WorkStatus", workStatus);
+        const data = {
+          employee_type: workStatus.toUpperCase(),
+          // company_name: formData.companyName,
+          // salary_date: formData.salaryDate,
+          // monthly_salary: formData.monthlySalary
+        };
+        console.log("data----", data);
+
+        const response = await userAPI.addEmployment(data);
+        console.log("response from empl--->", response);
+        
+        if(response){
+          navigate("/apply/email");
+        }
+      } catch (error) {
+        console.error("Error submitting employment status:", error);
+        setError("Failed to submit employment status. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -199,7 +227,7 @@ export default function WorkStatus() {
                   type="submit"
                   className="mt-1 w-[120px] sm:w-[140px] md:w-[160px] mx-auto flex items-center justify-center gap-2 bg-[#971201] text-white font-bold py-1.5 sm:py-2 rounded-full text-sm sm:text-base md:text-lg shadow hover:bg-[#b13a2f] transition"
                 >
-                  SUBMIT
+                  {isLoading ? "Submitting..." : "SUBMIT"}
                   <span className="bg-white text-[#971201] rounded-full p-0.5 sm:p-1 ml-1">
                     <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M6 4l8 6-8 6V4z" />

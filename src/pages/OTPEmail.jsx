@@ -1,71 +1,156 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import logo from "../assets/logo.png"; // Fundo Baba logo
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { userAPI } from "../services/api";
+// import { useDispatch } from "react-redux";
+// import { changeTracker } from "../redux/slices/lTracherSlice";
+import logo from "../assets/logo.png";
 import Navbarsteps from "../components/home/Navbarsteps";
 import StepsList from "../components/StepsList";
 
 export default function OTPEmail() {
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [error, setError] = useState("");
-  const [resendTimer, setResendTimer] = useState(0);
-  const [canResend, setCanResend] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(30);
+  const inputRefs = useRef([]);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { request_id, office_email, personal_email } =
+    location.state || JSON.parse(sessionStorage.getItem("emailData") || "{}");
+  // const dispatch = useDispatch();
 
-  // Validate OTP
-  const validateOTP = (value) => {
-    if (!value) return "OTP is required";
-    if (value.length !== 6) return "OTP must be 6 digits";
-    if (!/^\d+$/.test(value)) return "OTP must contain only numbers";
-    return "";
-  };
+  // useEffect(() => {
+  //   dispatch(changeTracker({ step: 1 }));
+  // }, [dispatch]);
 
-  // Handle input change
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setOtp(value);
-    
-    // Clear error when user starts typing
+  // Handle resend cooldown timer
+  useEffect(() => {
+    let timer;
+    if (resendCooldown > 0) {
+      timer = setInterval(() => {
+        setResendCooldown((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
+
+  // Redirect if required data is missing
+  useEffect(() => {
+    if (!request_id || !office_email || !personal_email) {
+      navigate("/apply/email");
+    }
+  }, [request_id, office_email, personal_email, navigate]);
+
+  const handleChange = (index, value) => {
+    if (value.length > 1) {
+      value = value.slice(0, 1);
+    }
+
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    // Move to next input if current input is filled
+    if (value && index < 5) {
+      inputRefs.current[index + 1].focus();
+    }
+
+    // Clear error when user types
     setError("");
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    const otpError = validateOTP(otp);
-    setError(otpError);
-
-    if (!otpError) {
-      // Form is valid, proceed with submission
-      console.log("OTP submitted:", otp);
-      // Add your submission logic here
+  const handleKeyDown = (index, e) => {
+    // Handle backspace
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      inputRefs.current[index - 1].focus();
     }
   };
 
-  // Handle resend OTP
-  const handleResendOTP = () => {
-    if (canResend) {
-      // Add your resend OTP logic here
-      console.log("Resending OTP...");
-      
-      // Start countdown timer
-      setCanResend(false);
-      setResendTimer(30);
+  const handleEditEmail = async () => {
+    navigate("/apply/email", { replace: true });
+  };
+
+  const handleSubmit = async (e) => {
+    if (e) e.preventDefault();
+    const otpValue = otp.join("");
+
+    if (otpValue.length !== 6) {
+      setError("Please enter all 6 digits");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const data = {
+        otp: otpValue,
+        request_id,
+        office_email,
+        personal_email,
+      };
+
+      console.log("Verifying Email OTP with data:", data);
+      const response = await userAPI.verifyEmailOTP(data);
+      console.log("Email OTP Verification Response:", response);
+
+      if (response) {
+        console.log("OTP verified successfully");
+        // dispatch(changeTracker({ step: 2 }));
+        navigate("/apply/upload-bank-statement");
+      } else {
+        throw new Error("Invalid OTP response");
+      }
+    } catch (error) {
+      console.error("Email OTP Error:", error);
+      setError(error.response?.data?.message || "Invalid OTP. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Countdown timer effect
-  useEffect(() => {
-    let timer;
-    if (resendTimer > 0) {
-      timer = setInterval(() => {
-        setResendTimer(prev => prev - 1);
-      }, 1000);
-    } else if (resendTimer === 0) {
-      setCanResend(true);
+  const handleResendOTP = async () => {
+    if (resendCooldown > 0) return;
+
+    console.log("Resend OTP started");
+    setIsLoading(true);
+    try {
+      const data = {
+        office_email,
+        personal_email,
+      };
+
+      console.log("Resend data:", data);
+      const response = await userAPI.sendEmailOTP(data);
+      console.log("Resend response:", response);
+
+      if (response && response.request_id) {
+        // Update sessionStorage with new request_id
+        const newData = {
+          request_id: response.request_id,
+          office_email,
+          personal_email,
+        };
+        sessionStorage.setItem("emailData", JSON.stringify(newData));
+        setError("");
+        setResendCooldown(30); // Reset cooldown timer
+
+        // Navigate with new request_id
+        navigate("/apply/otp-email", {
+          state: newData,
+          replace: true,
+        });
+      } else {
+        throw new Error("Failed to get new request ID");
+      }
+    } catch (error) {
+      console.error("Resend error:", error);
+      setError(
+        error.response?.data?.message ||
+        "Failed to resend OTP. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
     }
-    
-    return () => clearInterval(timer);
-  }, [resendTimer]);
+  };
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-white pl-0 pr-0 md:pl-6 md:pr-6 rounded-b-lg relative">
@@ -92,9 +177,7 @@ export default function OTPEmail() {
               style={{ minHeight: "240px" }}
             >
               {/* BabaStep Image */}
-              <div
-                className="absolute -top-13 -left-4 md:-top-12 md:-left-20 z-40"
-              >
+              <div className="absolute -top-13 -left-4 md:-top-17 md:-left-25 z-40">
                 <img 
                   src="/Babastep.png" 
                   alt="Baba" 
@@ -106,47 +189,79 @@ export default function OTPEmail() {
                 <h2 className="text-sm sm:text-base md:text-xl font-bold text-[#04344a] mb-1">
                   Your OTP is waiting in your inbox like a gift from the heavens.
                 </h2>
+                <p className="text-xs sm:text-sm text-gray-600">
+                  Enter OTP sent to <span className="text-[#04344a] font-semibold">{office_email}</span>
+                </p>
               </div>
 
               <form className="w-full flex flex-col gap-2 sm:gap-3 md:gap-4" onSubmit={handleSubmit}>
-                <div>
-                  <input
-                    type="text"
-                    value={otp}
-                    onChange={handleInputChange}
-                    placeholder="Enter OTP"
-                    className="w-full px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg border border-gray-500 focus:outline-none focus:ring-2 focus:ring-[#04344a] bg-[#d5d6d8] text-gray-800 placeholder:text-[#b48b8b] text-xs sm:text-base font-medium text-center"
-                  />
-                  {error && (
-                    <p className="text-red-500 text-[8px] sm:text-xs mt-1">{error}</p>
-                  )}
+                <div className="flex gap-1.5 justify-between">
+                  {otp.map((digit, index) => (
+                    <input
+                      key={index}
+                      ref={(el) => (inputRefs.current[index] = el)}
+                      type="text"
+                      maxLength={1}
+                      value={digit}
+                      onChange={(e) => handleChange(index, e.target.value)}
+                      onKeyDown={(e) => handleKeyDown(index, e)}
+                      className="w-8 h-10 sm:w-10 sm:h-12 text-center text-lg font-semibold border-2 border-[#04344a] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#04344a] focus:border-transparent  text-[#04344a]"
+                      pattern="[0-9]*"
+                      inputMode="numeric"
+                      disabled={isLoading}
+                    />
+                  ))}
                 </div>
-                
+
+                {error && (
+                  <p className="text-red-500 text-[8px] sm:text-xs text-center">
+                    {error}
+                  </p>
+                )}
+
                 <button
                   type="submit"
-                  className="mt-1 w-[120px] sm:w-[140px] md:w-[160px] mx-auto flex items-center justify-center gap-2 bg-[#04344a] text-white font-bold py-1.5 sm:py-2 rounded-full text-sm sm:text-base md:text-lg shadow hover:bg-[#065069] transition"
+                  disabled={isLoading || !otp.join("")}
+                  className="mt-1 w-[120px] sm:w-[140px] md:w-[160px] mx-auto flex items-center justify-center gap-2 bg-[#04344a] text-white font-bold py-1.5 sm:py-2 rounded-full text-sm sm:text-base md:text-lg shadow hover:bg-[#065069] transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  SUBMIT
-                  <span className="bg-white text-[#04344a] rounded-full p-0.5 sm:p-1 ml-1">
-                    <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M6 4l8 6-8 6V4z" />
-                    </svg>
-                  </span>
+                  {isLoading ? (
+                    <span className="animate-spin">⌛</span>
+                  ) : (
+                    <>
+                      VERIFY
+                      <span className="bg-white text-[#04344a] rounded-full p-0.5 sm:p-1 ml-1">
+                        <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M6 4l8 6-8 6V4z" />
+                        </svg>
+                      </span>
+                    </>
+                  )}
                 </button>
 
                 <div className="text-center mt-1 sm:mt-2">
-                  <p className="text-[8px] sm:text-[10px] text-gray-600">
+                  <p className="text-[8px] sm:text-[10px] text-[#04344a]">
                     Didn't get it? <br />
                     <button 
                       type="button"
                       onClick={handleResendOTP}
-                      disabled={!canResend}
-                      className={`text-[#04344a] font-semibold ${!canResend ? 'opacity-50 cursor-not-allowed' : 'hover:underline'}`}
+                      disabled={isLoading || resendCooldown > 0}
+                      className={`text-[#04344a] font-semibold ${resendCooldown > 0 ? 'opacity-50 cursor-not-allowed' : 'hover:underline'}`}
                     >
-                      {canResend ? "Baba's got backup. Click resend!" : `Resend in ${resendTimer}s`}
+                      {resendCooldown > 0
+                        ? `Resend in ${resendCooldown}s`
+                        : "Baba's got backup. Click resend!"}
                     </button>
                   </p>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={handleEditEmail}
+                  disabled={isLoading}
+                  className="text-[8px] sm:text-[10px] text-[#04344a] font-semibold hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Edit Email
+                </button>
               </form>
             </div>
 

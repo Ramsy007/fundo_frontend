@@ -1,58 +1,102 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { userAPI } from "../services/api";
+// import { useDispatch, useSelector } from "react-redux";
+// import { updateEligibleLoanAmount } from "../redux/slices/loanSlice";
 import logo from "../assets/logo.png";
 import StepsList from "../components/StepsList";
 import Navbarsteps from "../components/home/Navbarsteps";
 import FooterStep from "../components/FooterStep";
 import { FaCloudUploadAlt, FaEye, FaEyeSlash, FaFileAlt, FaLock } from "react-icons/fa";
+// import { ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+// import PageLoader from "../components/Loader";
 
 export default function UploadBankStatement() {
-  const [file, setFile] = useState(null);
-  const [uploadMsg, setUploadMsg] = useState("");
+  const navigate = useNavigate();
+  // const dispatch = useDispatch();
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [showCongratsModal, setShowCongratsModal] = useState(false);
+  const [uploadError, setUploadError] = useState(null);
+  const [maxLoanAmount, setMaxLoanAmount] = useState(0);
   const [isPasswordProtected, setIsPasswordProtected] = useState(false);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [uploadError, setUploadError] = useState(null);
-  const [showCongratsModal, setShowCongratsModal] = useState(false);
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      setUploadMsg("");
-      setUploadError(null);
-    }
-  };
+  // const eligibleLoanAmount = useSelector((state) => state.loan.eligibleLoanAmount);
+  const eligibleLoanAmount = 7000;
+  // Log Redux state changes
+  // useEffect(() => {
+  //   console.log("Current eligible loan amount:", eligibleLoanAmount);
+  // }, [eligibleLoanAmount]);
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
   };
 
-  const handleSubmit = (e) => {
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      setIsUploading(false);
+      setUploadError(null);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedFile) {
       setUploadError("Please select a file to upload.");
-      setUploadMsg("");
       return;
     }
     if (isPasswordProtected && !password) {
       setUploadError("Please enter the password for your statement.");
-      setUploadMsg("");
       return;
     }
-    setUploadMsg("Bank statement uploaded successfully!");
-    setUploadError(null);
-    setShowCongratsModal(true);
+
+    setIsUploading(true);
+    try {
+      const response = await userAPI.uploadBankStatement(selectedFile, isPasswordProtected ? password : null);
+      console.log("Bank Statement Upload Success:", response);
+
+      if (response.maxLoanAmount) {
+        const newMaxAmount = parseInt(response.maxLoanAmount);
+        setMaxLoanAmount(newMaxAmount);
+        // dispatch(updateEligibleLoanAmount(newMaxAmount));
+        console.log("Updated max loan amount:", newMaxAmount);
+      }
+
+      setShowCongratsModal(true);
+    } catch (error) {
+      console.log("error-------->", error);
+      const errorMessage = error.message;
+
+      if (errorMessage.includes("Bank statement is already completed")) {
+        navigate("/apply/loan-amount");
+        return;
+      }
+      setUploadError(errorMessage);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleCloseModal = () => {
     setShowCongratsModal(false);
-    // You can add navigation logic here if needed
+    navigate("/apply/loan-amount");
   };
 
   return (
     <>
+      {/* <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+      /> */}
       <div className="min-h-screen flex flex-col justify-between bg-white pl-0 pr-0 md:pl-6 md:pr-6 rounded-b-lg relative">
         <div className="bg-[#04344a] mb-2 md:mb-4 rounded-b-3xl">
           {/* Main Content */}
@@ -65,12 +109,12 @@ export default function UploadBankStatement() {
             </div>
 
             {/* Fundo Baba Logo */}
-            <div className="flex justify-center mt-2 md:mt-4">
+            <div className="flex justify-center mt-2 md:mt-4 mb-6 md:mb-10 lg:mb-10">
               <img src={logo} alt="Fundo Baba Logo" className="w-24 md:w-32" />
             </div>
 
             {/* Main Section */}
-            <div className="flex flex-1 items-center justify-center relative flex-col">
+            <div className="flex flex-1 items-center justify-center relative flex-col mb-6 md:mb-10 lg:mb-10">
               {/* Card Wrapper for double border */}
               <div className="bg-[#1ca0e3] p-1 rounded-3xl shadow-xl">
                 <div className="bg-white p-1 rounded-2xl">
@@ -80,9 +124,7 @@ export default function UploadBankStatement() {
                     style={{ minHeight: "240px" }}
                   >
                     {/* BabaStep Image */}
-                    <div
-                      className="absolute -top-14 -left-8 md:-top-12 md:-left-20 z-40"
-                    >
+                    <div className="absolute -top-17 -left-4 md:-top-18 md:-left-32 z-40">
                       <img 
                         src="/Babastep.png" 
                         alt="Baba" 
@@ -94,7 +136,7 @@ export default function UploadBankStatement() {
                     <div className="w-full">
                       <div className="bg-[#c2d7e7] rounded-lg px-3 py-3 mb-3">
                         <p className="text-[13px] sm:text-base text-[#2b3a4b] font-medium mb-1">
-                          Baba checked the stars — <span className="font-bold">₹28,000</span> is shining for you!
+                          Baba checked the stars — <span className="font-bold">₹{eligibleLoanAmount?.toLocaleString() || "0"}</span> is shining for you!
                         </p>
                         <p className="text-[12px] sm:text-sm text-[#2b3a4b]">But first, a small ritual—your bank statement!</p>
                       </div>
@@ -171,17 +213,23 @@ export default function UploadBankStatement() {
                           {uploadError && (
                             <p className="text-xs font-medium text-red-600 text-center bg-red-50 p-2 rounded-lg mb-1">{uploadError}</p>
                           )}
-                          {uploadMsg && (
-                            <p className="text-xs font-medium text-green-600 text-center bg-green-50 p-2 rounded-lg mb-1">{uploadMsg}</p>
-                          )}
                           {/* Upload Button */}
-                          <button
-                            type="submit"
-                            className="w-full flex items-center justify-center gap-2 bg-[#1a5be6] hover:bg-[#0d3a8c] text-white font-bold py-2 rounded-full text-sm sm:text-base shadow transition"
-                          >
-                            <FaLock className="w-4 h-4 mr-1" />
-                            Upload Bank Statement
-                          </button>
+                          {selectedFile && (
+                            <button
+                              type="submit"
+                              disabled={isUploading}
+                              className="w-full flex items-center justify-center gap-2 bg-[#1a5be6] hover:bg-[#0d3a8c] text-white font-bold py-2 rounded-full text-sm sm:text-base shadow transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              {isUploading ? (
+                                <span className="animate-spin">⌛</span>
+                              ) : (
+                                <>
+                                  <FaLock className="w-4 h-4" />
+                                  Upload Bank Statement
+                                </>
+                              )}
+                            </button>
+                          )}
                         </form>
                       </div>
                     </div>
@@ -216,13 +264,15 @@ export default function UploadBankStatement() {
           <div className="bg-white rounded-2xl w-full max-w-[300px] mx-4 overflow-hidden">
             <div className="bg-[#04344a] p-6 flex flex-col items-center">
               {/* Money Bag Icon */}
-              <div className="w-16 h-16 bg-[#ffd700] rounded-full flex items-center justify-center mb-3">
-                <svg className="w-10 h-10 text-[#04344a]" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.39-2.1 1.39-1.6 0-2.23-.72-2.32-1.64H8.04c.1 1.7 1.36 2.66 2.86 2.97V19h2.34v-1.67c1.52-.29 2.72-1.16 2.73-2.77-.01-2.2-1.9-2.96-3.66-3.42z" />
-                </svg>
+              <div className="w-48 h-48 mb-3 -ml-8">
+                <img 
+                  src="/boom-upload-bank-statement.png" 
+                  alt="Boom" 
+                  className="w-full h-full object-contain"
+                />
               </div>
               <h2 className="text-2xl font-bold text-white mb-2">BOOM!</h2>
-              <p className="text-xl font-semibold text-white">₹75,000</p>
+              <p className="text-xl font-semibold text-white">₹{maxLoanAmount.toLocaleString()}</p>
               <p className="text-sm text-white/80">unlocked for you!</p>
             </div>
             <div className="p-4">
