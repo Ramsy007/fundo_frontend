@@ -9,7 +9,7 @@ export default function FinancialAppPromo() {
         <img src={Logo} alt="Logo" className="h-10 w-auto" />
         <Navbar />
       </div>
-      <div className="bg-white p-1 sm:p-8 w-full">
+      <div className="bg-white p-1  w-full pt-20">
         <div className="text-center mb-6 sm:mb-10">
           <h1 className="text-lg xs:text-xl sm:text-5xl font-extrabold tracking-wider text-teal-800">
             YOUR SHORTCUT

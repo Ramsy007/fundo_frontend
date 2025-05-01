@@ -20,7 +20,7 @@ const loanTypes = [
 const LoanTypesScroll = () => {
   return (
     <section className="font-[Poppins] mt-8 md:mt-10 w-full max-w-full">
-      <div className="flex md:justify-center space-x-6 md:space-x-8 overflow-x-auto pb-4 scrollbar-hide px-2 md:px-8">
+      <div className="flex md:justify-center space-x-6 md:space-x-8 overflow-x-auto pb-4 scrollbar-hide px-5 md:px-8">
         {loanTypes.map((loan) => (
           <div
             key={loan.title}

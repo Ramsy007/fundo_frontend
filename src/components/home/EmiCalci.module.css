@@ -128,17 +128,17 @@
 /* Tablet */
 @media (max-width: 768px) {
   .calculatorBox {
-    width: 90%;
+    width: 70%;
     padding: 2rem;
   }
 
   .headingPrimary {
-    font-size: 48px;
+    font-size: 38px;
     letter-spacing: 6px;
   }
 
   .headingSecondary {
-    font-size: 32px;
+    font-size: 28px;
     letter-spacing: 4px;
   }
 

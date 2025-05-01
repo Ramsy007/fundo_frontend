@@ -5,14 +5,14 @@ import Logo from "../assets/Logo.png";
 
 export default function Contact() {
   return (
-    <>
-      <div className="flex justify-between items-center gap-4 mr-10 pt-5 pl-5">
-        <img src={Logo} alt="Logo" className="h-10 w-auto" />
-        <Navbar />
-      </div>
+    <div className="bg-black pl-10 pr-10 pb-10 max-[1320px]:pl-5 max-[1320px]:pr-5 max-[425px]:pl-2 max-[425px]:pr-2">
+      <div className="bg-white pb-15 rounded-b-[50px]">
+        <div className="flex justify-between items-center gap-4 mr-10 pt-5 pl-5">
+          <img src={Logo} alt="Logo" className="h-10 w-auto" />
+          <Navbar />
+        </div>
 
-      <div className="min-h-screen bg-black py-6 sm:py-10 px-4 sm:px-10">
-        <div className="max-w-[1400px] mx-auto bg-white rounded-[20px] sm:rounded-[50px] overflow-hidden shadow-2xl p-6 sm:p-16">
+        <div className="max-w-[1400px] mx-auto  p-6 sm:p-16">
           {/* Contact Baba Section */}
           <div className="flex flex-col sm:flex-row items-center gap-8 sm:gap-20 mb-16 sm:mb-32">
             <div className="w-[250px] sm:w-[400px]">
@@ -161,6 +161,6 @@ export default function Contact() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

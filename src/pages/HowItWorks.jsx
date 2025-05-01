@@ -9,11 +9,15 @@ import FinancialAppPromo from "../components/howItWorks/FinancialAppPromo";
 export const HowItWorks = () => {
   return (
     <>
-      <FinancialAppPromo />
-      <DetailsFormPromo />
-      <MoneyTransferPromo />
-      <EligibilityPromo />
-      <LoanDetailsPromo />
+      <div className="bg-black pl-10 pr-10 pb-10 max-[1320px]:pl-5 max-[1320px]:pr-5 max-[425px]:pl-2 max-[425px]:pr-2">
+        <div className="bg-white pb-15 rounded-b-[50px]">
+          <FinancialAppPromo />
+          <DetailsFormPromo />
+          <MoneyTransferPromo />
+          <EligibilityPromo />
+          <LoanDetailsPromo />
+        </div>
+      </div>
     </>
   );
 };

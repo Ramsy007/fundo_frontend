@@ -3,6 +3,17 @@ import { NavLink } from "react-router-dom";
 
 function Navbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showHamburger, setShowHamburger] = useState(false);
+
+  useEffect(() => {
+    const checkWidth = () => {
+      setShowHamburger(window.innerWidth <= 1024); // adjust as needed
+    };
+
+    checkWidth(); // on mount
+    window.addEventListener("resize", checkWidth);
+    return () => window.removeEventListener("resize", checkWidth);
+  }, []);
 
   const navLinks = [
     { to: "/", label: "Home", exact: true },
@@ -36,7 +47,7 @@ function Navbar() {
   return (
     <>
       {/* Desktop Navbar */}
-      <nav className="hidden md:flex space-x-16 font-poppins text-lg font-medium">
+      <nav className="hidden [@media(min-width:841px)]:flex space-x-16 font-poppins text-lg font-medium">
         {navLinks.map((link) => (
           <NavLink
             key={link.to}
@@ -57,7 +68,7 @@ function Navbar() {
 
       {/* Hamburger Icon for Mobile */}
       <button
-        className="md:hidden flex items-center px-2 py-1 mr-[-30px] text-3xl text-black focus:outline-none"
+        className="[@media(min-width:841px)]:hidden flex items-center px-2 py-1 mr-[-30px] text-3xl text-black focus:outline-none"
         onClick={() => setSidebarOpen(true)}
         aria-label="Open menu"
       >
