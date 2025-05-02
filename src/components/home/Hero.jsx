@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./Hero.module.css";
+import ApplyNowButton from "../ApplyNowButton";
 
 function Hero() {
   return (
@@ -12,14 +13,11 @@ function Hero() {
           <div className={styles.hero_desc}>
             <span>NEED CASH?</span> <br />
             <div className="mb-5 max-[425px]:mb-1"></div>
-            <span>BABA’S GOT YOUR</span> <br />
+            <span>BABA'S GOT YOUR</span> <br />
             <div className="mb-5 max-[425px]:mb-1"></div>
             <span>BACK. EVERY TIME.</span>
           </div>
-          {/* <Link to={"/step1"}>
-            <div className={styles.hero_btn}>Get Instant Money</div>
-          </Link> */}
-          <div className={styles.coming_soon}>Coming Soon...</div>
+          <ApplyNowButton />
         </div>
       </div>
     </div>

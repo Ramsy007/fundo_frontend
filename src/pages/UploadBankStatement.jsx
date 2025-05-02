@@ -126,7 +126,7 @@ export default function UploadBankStatement() {
                     {/* BabaStep Image */}
                     <div className="absolute -top-17 -left-4 md:-top-18 md:-left-32 z-40">
                       <img 
-                        src="/Babastep.png" 
+                        src="/Babaotp.png" 
                         alt="Baba" 
                         className="w-[90px] h-[90px] sm:w-[110px] sm:h-[110px] md:w-[140px] md:h-[140px] lg:w-[180px] lg:h-[180px] object-contain drop-shadow-2xl" 
                       />

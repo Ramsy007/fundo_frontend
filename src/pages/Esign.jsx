@@ -1,10 +1,92 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 import StepsList from "../components/StepsList";
 import Navbarsteps2 from "../components/home/Navbarsteps2";
 import FooterStep from "../components/FooterStep";
+import { userAPI } from "../services/api";
+import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { changeTracker } from "../redux/slices/lTracherSlice";
+import PageLoader from "../components/Loader";
+// import { LEAD_STAGE, leadStageToRouteMap } from "../utils/constants";
+// import useLeadStage from "../hooks/useLeadStage";
+// import PageLoader from "../components/Loader";
+
+// const curr_page_lead_stage = LEAD_STAGE.VERIFY_AADHAAR_KYC;
 
 export default function Esign() {
+  const [loanDetails, setLoanDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isPreviewLoading, setIsPreviewLoading] = useState(false);
+  const [previewError, setPreviewError] = useState('');
+  const dispatch = useDispatch();
+  // const { leadStage } = useLeadStage();
+
+  useEffect(() => {
+    dispatch(changeTracker({ step: 4 }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    const fetchLoanDetails = async () => {
+      try {
+        const response = await userAPI.getESignData();
+        setLoanDetails(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching loan details:", err);
+        setLoading(false);
+      }
+    };
+
+    fetchLoanDetails();
+  }, []);
+
+  // if (!leadStage) {
+  //   return <PageLoader />;
+  // }
+
+  // if (leadStage && leadStage !== curr_page_lead_stage) {
+  //   navigate(leadStageToRouteMap[leadStage]);
+  // }
+
+  const handlePreviewClick = async () => {
+    setIsPreviewLoading(true);
+    setPreviewError('');
+
+    try {
+      const response = await userAPI.previewSanction();
+      console.log('Preview Sanction Response:', response);
+      
+      if (response.data && response.data.signUrl) {
+        window.location.href = response.data.signUrl;
+      } else {
+        throw new Error('No SignUrl found in response');
+      }
+    } catch (error) {
+      console.error('Preview Sanction Error:', error);
+      setPreviewError(error.response?.data?.message || 'Failed to preview sanction letter. Please try again.');
+    } finally {
+      setIsPreviewLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col justify-center items-center bg-white">
+        <div className="flex flex-col items-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#243112]"></div>
+          <p className="mt-4 text-[#243112] text-sm">Loading your loan details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!loanDetails) {
+    return <PageLoader />;
+  }
+
+  
+
   return (
     <div className="min-h-screen flex flex-col justify-between bg-white pl-0 pr-0 md:pl-6 md:pr-6 rounded-b-lg relative">
       <div className="bg-[#243112] mb-2 md:mb-4 rounded-b-3xl">
@@ -45,7 +127,7 @@ export default function Esign() {
                     <span className="text-black text-[9px] sm:text-xs md:text-sm text-[#444]">Loan Amount</span>
                   </div>
                   <div className="text-right col-span-1">
-                    <span className="text-black text-[9px] sm:text-xs md:text-sm font-medium">₹5,001</span>
+                    <span className="text-black text-[9px] sm:text-xs md:text-sm font-medium">₹{Number(loanDetails.loan_amount).toLocaleString()}</span>
                   </div>
                   <div className="col-span-1 pl-1 sm:pl-2 md:pl-4">
                     <span className="text-black text-[9px] sm:text-xs md:text-sm text-[#444]">Interest Rate</span>
@@ -58,26 +140,26 @@ export default function Esign() {
                     <span className="text-black text-[9px] sm:text-xs md:text-sm">Tenure</span>
                   </div>
                   <div className="text-right col-span-1">
-                    <span className="text-black text-[9px] sm:text-xs md:text-sm font-medium">19 days</span>
+                    <span className="text-black text-[9px] sm:text-xs md:text-sm font-medium">{loanDetails.tenure} days</span>
                   </div>
                   <div className="col-span-1 pl-1 sm:pl-2 md:pl-4">
                     <span className="text-black text-[9px] sm:text-xs md:text-sm whitespace-nowrap">Processing Fee</span>
                   </div>
                   <div className="text-right col-span-1">
-                    <span className="text-black text-[9px] sm:text-xs md:text-sm font-medium">₹750</span>
+                    <span className="text-black text-[9px] sm:text-xs md:text-sm font-medium">₹{Number(loanDetails.processing_fee).toLocaleString()}</span>
                   </div>
 
                   <div className="col-span-1">
                     <span className="text-black text-[9px] sm:text-xs md:text-sm whitespace-nowrap">Repayment</span>
                   </div>
                   <div className="text-right col-span-1">
-                    <span className="text-black text-[9px] sm:text-xs md:text-sm font-medium">₹5,856</span>
+                    <span className="text-black text-[9px] sm:text-xs md:text-sm font-medium">₹{Number(loanDetails.repayment_amount).toLocaleString()}</span>
                   </div>
                   <div className="col-span-1 pl-1 sm:pl-2 md:pl-4">
                     <span className="text-black text-[9px] sm:text-xs md:text-sm whitespace-nowrap">Disbursal</span>
                   </div>
                   <div className="text-right col-span-1">
-                    <span className="text-black text-[9px] sm:text-xs md:text-sm font-medium">11-04-25</span>
+                    <span className="text-black text-[9px] sm:text-xs md:text-sm font-medium">{new Date(loanDetails.disbursal_date).toLocaleDateString()}</span>
                   </div>
                 </div>
               </div>
@@ -86,176 +168,82 @@ export default function Esign() {
               <div className="bg-[#24311252] bg-opacity-30 py-1 sm:py-1.5 px-2 rounded-xl w-full mb-3 sm:mb-4">
                 <h3 className="text-[10px] sm:text-xs font-medium mb-0.5">Important Notes</h3>
                 <div className="text-[9px] sm:text-[11px] text-black leading-tight">
-                  <p className="mb-0.5">• The loan amount will be disbursed to your bank account ending with 9421</p>
+                  <p className="mb-0.5">• The loan amount will be disbursed to your bank account ending with {loanDetails.masked_bank_no}</p>
                   <p>• Late payment charges will be applicable for delayed payments</p>
                 </div>
               </div>
 
-              {/* Preview Sanction Letter */}
-              <button className="group w-full bg-gradient-to-r from-[#243112] via-[#2c3d15] to-[#243112] text-white py-2 sm:py-3 md:py-4 rounded-xl flex items-center justify-between px-2 sm:px-3 md:px-5 relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_rgba(36,49,18,0.4)] hover:scale-[1.02]">
-                {/* Constant animated background */}
-                <div className="absolute inset-0">
-                  {/* Constant rotating gradient - smaller radius for mobile */}
-                  <div className="absolute inset-[2px] sm:inset-[3px] md:inset-0 bg-gradient-to-r from-[#243112]/0 via-[#4c6825]/10 to-[#243112]/0 animate-rotate-bg rounded-lg"></div>
-                  
-                  {/* Constant floating particles - adjusted spacing for mobile */}
-                  <div className="absolute inset-[4px] sm:inset-[6px] md:inset-0 overflow-hidden">
-                    {[...Array(6)].map((_, i) => (
-                      <div
-                        key={i}
-                        className="absolute w-0.5 sm:w-1 h-0.5 sm:h-1 bg-white/20 rounded-full animate-float-particle"
-                        style={{
-                          left: `${i * 18}%`,
-                          animationDelay: `${i * 0.5}s`,
-                          top: '50%'
-                        }}
-                      ></div>
-                    ))}
-                  </div>
-                </div>
+              {/* Preview Sanction Letter Button */}
+              <motion.button
+                onClick={handlePreviewClick}
+                disabled={isPreviewLoading}
+                className="group w-full bg-gradient-to-r from-[#243112] via-[#2c3d15] to-[#243112] text-white py-2 sm:py-3 md:py-4 rounded-xl flex items-center justify-between px-2 sm:px-3 md:px-5 relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_rgba(36,49,18,0.4)] hover:scale-[1.02]"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {/* Shimmering Light Effect */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  initial={{ x: -200 }}
+                  animate={{ x: 400 }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 2,
+                    ease: "linear"
+                  }}
+                />
 
-                {/* Hover effects - adjusted for mobile */}
-                <div className="absolute inset-[2px] sm:inset-[3px] md:inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  {/* Scanning line on hover */}
-                  <div className="absolute inset-0 overflow-hidden">
-                    <div className="w-1/2 h-[1px] sm:h-[2px] bg-gradient-to-r from-transparent via-white/60 to-transparent absolute top-0 -left-full group-hover:animate-scan"></div>
-                  </div>
-                  
-                  {/* Pulsing border on hover */}
-                  <div className="absolute inset-0 rounded-lg border border-white/20 group-hover:animate-border-pulse"></div>
-                </div>
-
-                {/* Content container */}
-                <div className="relative flex items-center space-x-2 sm:space-x-3">
-                  {/* Animated status indicator - smaller for mobile */}
-                  <div className="flex items-center space-x-1 sm:space-x-2">
-                    <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-[#4c6825] animate-pulse-slow"></div>
-                    <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-[#4c6825] animate-pulse-slow" style={{ animationDelay: '0.5s' }}></div>
-                  </div>
-                  
-                  {/* Text content */}
-                  <div className="relative">
-                    <p className="text-sm sm:text-base font-medium transform group-hover:translate-y-[-2px] transition-transform duration-300">
+                <div className="flex items-center justify-between w-full">
+                  <div>
+                    <h3 className="text-sm sm:text-base font-medium transform group-hover:translate-y-[-2px] transition-transform duration-300">
                       Preview Sanction Letter
-                      {/* Constant shimmer effect */}
-                      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer"></span>
-                    </p>
+                    </h3>
                     <p className="text-[10px] sm:text-xs text-gray-200/90 transform group-hover:translate-y-[-2px] transition-transform duration-300">
                       Click to view your sanction letter
                     </p>
                   </div>
+                  <div className="bg-white/20 p-2 sm:p-3 rounded-lg w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </div>
                 </div>
+              </motion.button>
 
-                {/* Icon container - adjusted for mobile */}
-                <div className="relative">
-                  {/* Constant rotating glow - smaller radius */}
-                  <div className="absolute inset-[2px] sm:inset-[3px] md:inset-0 bg-gradient-to-r from-[#4c6825]/30 to-transparent rounded-full animate-spin-slow"></div>
-                  
-                  {/* Icon with constant float */}
-                  <svg 
-                    className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white relative animate-gentle-float group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" 
-                    fill="currentColor" 
-                    viewBox="0 0 20 20"
+              {/* Loading State */}
+              {isPreviewLoading && (
+                <motion.div 
+                  className="flex items-center justify-center text-[#243112] mt-2 sm:mt-3"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                >
+                  <motion.svg 
+                    className="h-4 w-4 sm:h-5 sm:w-5 mr-2 sm:mr-3" 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" 
+                    viewBox="0 0 24 24"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                   >
-                    <path d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V8l-6-6H6zm4 1.5L14.5 8H10V3.5z" />
-                  </svg>
-                </div>
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </motion.svg>
+                  <span className="text-[10px] sm:text-xs">Loading preview...</span>
+                </motion.div>
+              )}
 
-                {/* Constant corner animations - smaller for mobile */}
-                <div className="absolute inset-0">
-                  {[...Array(4)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="absolute w-1.5 sm:w-2 h-1.5 sm:h-2 animate-corner-pulse"
-                      style={{
-                        top: i < 2 ? '2px' : 'auto',
-                        bottom: i >= 2 ? '2px' : 'auto',
-                        left: i % 2 === 0 ? '2px' : 'auto',
-                        right: i % 2 === 1 ? '2px' : 'auto',
-                        borderTop: i < 2 ? '1px solid rgba(255,255,255,0.2)' : 'none',
-                        borderBottom: i >= 2 ? '1px solid rgba(255,255,255,0.2)' : 'none',
-                        borderLeft: i % 2 === 0 ? '1px solid rgba(255,255,255,0.2)' : 'none',
-                        borderRight: i % 2 === 1 ? '1px solid rgba(255,255,255,0.2)' : 'none',
-                        borderRadius: '2px'
-                      }}
-                    ></div>
-                  ))}
-                </div>
-              </button>
-
-              <style jsx>{`
-                @keyframes rotate-bg {
-                  0% { transform: rotate(0deg); }
-                  100% { transform: rotate(360deg); }
-                }
-
-                @keyframes float-particle {
-                  0%, 100% { transform: translateY(-6px) scale(1); opacity: 0.3; }
-                  50% { transform: translateY(6px) scale(1.2); opacity: 0.7; }
-                }
-
-                @keyframes pulse-slow {
-                  0%, 100% { opacity: 0.4; transform: scale(0.8); }
-                  50% { opacity: 0.8; transform: scale(1.2); }
-                }
-
-                @keyframes gentle-float {
-                  0%, 100% { transform: translateY(0); }
-                  50% { transform: translateY(-2px); }
-                }
-
-                @keyframes shimmer {
-                  0% { transform: translateX(-100%); }
-                  100% { transform: translateX(100%); }
-                }
-
-                @keyframes corner-pulse {
-                  0%, 100% { opacity: 0.3; }
-                  50% { opacity: 0.7; }
-                }
-
-                @keyframes scan {
-                  0% { transform: translateX(-100%); }
-                  100% { transform: translateX(300%); }
-                }
-
-                @keyframes border-pulse {
-                  0%, 100% { border-color: rgba(255,255,255,0.1); }
-                  50% { border-color: rgba(255,255,255,0.3); }
-                }
-
-                .animate-rotate-bg {
-                  animation: rotate-bg 8s linear infinite;
-                }
-
-                .animate-float-particle {
-                  animation: float-particle 3s ease-in-out infinite;
-                }
-
-                .animate-pulse-slow {
-                  animation: pulse-slow 2s ease-in-out infinite;
-                }
-
-                .animate-gentle-float {
-                  animation: gentle-float 2s ease-in-out infinite;
-                }
-
-                .animate-shimmer {
-                  animation: shimmer 3s linear infinite;
-                }
-
-                .animate-corner-pulse {
-                  animation: corner-pulse 2s ease-in-out infinite;
-                }
-
-                .animate-scan {
-                  animation: scan 1.5s linear infinite;
-                }
-
-                .animate-border-pulse {
-                  animation: border-pulse 2s ease-in-out infinite;
-                }
-              `}</style>
+              {/* Error Message */}
+              {previewError && (
+                <motion.div 
+                  className="text-red-500 text-[10px] sm:text-xs text-center mt-2 sm:mt-3"
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                >
+                  {previewError}
+                </motion.div>
+              )}
 
               {/* Baba Image */}
               <div className="absolute -top-20 -left-10 sm:-top-20 sm:-left-8 md:-top-20 md:-left-44 z-40">

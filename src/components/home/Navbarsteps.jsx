@@ -14,11 +14,11 @@ export default function Navbarsteps() {
           className="flex items-center gap-1 sm:gap-2 cursor-pointer"
           onClick={() => navigate("/")}
         >
-          <img
+          {/* <img
             src={logo}
             alt="Fundo Baba Logo"
             className="w-12 h-6 sm:w-14 sm:h-7 md:w-16 md:h-8 lg:w-20 lg:h-10 xl:w-24 xl:h-12"
-          />
+          /> */}
         </div>
 
         {/* Desktop Navigation */}

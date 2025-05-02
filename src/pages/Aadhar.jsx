@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { userAPI } from "../services/api";
-// import { useDispatch } from "react-redux";
-// import { changeTracker } from "../redux/slices/lTracherSlice";
+import { useDispatch } from "react-redux";
+import { changeTracker } from "../redux/slices/lTracherSlice";
 // import { LEAD_STAGE, leadStageToRouteMap } from "../utils/constants";
 // import useLeadStage from "../hooks/useLeadStage";
 // import PageLoader from "../components/Loader";
@@ -18,15 +18,15 @@ import FooterStep from "../components/FooterStep";
 
 export default function Aadhar() {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // const { leadStage, isLoadingStage, errorStage } = useLeadStage();
   const [aadharNumber, setAadharNumber] = useState('');
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   dispatch(changeTracker({ step: 3 }));
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(changeTracker({ step: 3 }));
+  }, [dispatch]);
 
   const validateAdhar = (adhar) => {
     const adharRegex = /^\d{12}$/;
@@ -45,6 +45,7 @@ export default function Aadhar() {
         formattedValue = formattedValue.slice(0, 9) + " " + formattedValue.slice(9);
       }
       setAadharNumber(formattedValue);
+      console.log("Aadhar Number:", formattedValue);
       setErrors((prev) => ({ ...prev, adhar: "" }));
     }
   };
@@ -148,15 +149,13 @@ export default function Aadhar() {
                 <div className="mb-4">
                   <input
                     type="text"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
                     placeholder="XXXX XXXX XXXX"
                     value={aadharNumber}
                     onChange={handleAadharChange}
                     className={`w-full px-4 py-2 sm:py-3 text-center rounded-lg border-2 ${
                       errors.adhar ? "border-red-500" : "border-gray-300"
                     } focus:outline-none focus:border-[#243112] bg-transparent text-black text-lg sm:text-xl font-medium tracking-wider`}
-                    maxLength={14}
+                    maxLength='14'
                   />
                   {errors.adhar && (
                     <p className="text-red-500 text-xs mt-1">{errors.adhar}</p>
@@ -165,7 +164,7 @@ export default function Aadhar() {
 
                 <button
                   type="submit"
-                  disabled={aadharNumber.length !== 12 || isLoading}
+                  disabled={aadharNumber.replace(/\s/g, "").length !== 12 || isLoading}
                   className="w-full bg-[#243112] text-white font-semibold py-2 sm:py-3 rounded-full text-sm sm:text-base flex items-center justify-center gap-2 shadow hover:bg-[#2f4117] transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? "PROCESSING..." : "SUBMIT"}

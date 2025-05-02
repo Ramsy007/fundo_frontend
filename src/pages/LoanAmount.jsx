@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userAPI } from "../services/api";
 // import { updateRequestedLoanAmount } from "../redux/slices/userDataSlice";
-// import { changeTracker } from "../redux/slices/lTracherSlice";
+import { changeTracker } from "../redux/slices/lTracherSlice";
 // import { LEAD_STAGE, leadStageToRouteMap } from "../utils/constants";
 // import useLeadStage from "../hooks/useLeadStage";
 // import PageLoader from "../components/Loader";
@@ -19,7 +19,7 @@ import FooterStep from "../components/FooterStep";
 
 export default function LoanAmount() {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // const { leadStage, isLoadingStage, errorStage } = useLeadStage();
   // const { eligibleLoanAmount } = useSelector((state) => state.userData);
   const eligibleLoanAmount = "56568";
@@ -31,9 +31,9 @@ export default function LoanAmount() {
   const [isOptInsurance, setIsOptInsurance] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   dispatch(changeTracker({ step: 2 }));
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(changeTracker({ step: 2 }));
+  }, [dispatch]);
 
   const maximumLoanAmount = eligibleLoanAmount || 56568;
 

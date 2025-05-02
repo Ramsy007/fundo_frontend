@@ -216,7 +216,7 @@ export default function OTPMobile() {
             >
               <div className="absolute -top-13 -left-4 md:-top-12 md:-left-20 z-40">
                 <img 
-                  src="/Babastep.png" 
+                  src="/Babaotp.png" 
                   alt="Baba" 
                   className="w-[75px] h-[75px] sm:w-[70px] sm:h-[70px] md:w-[100px] md:h-[100px] lg:w-[150px] lg:h-[150px] object-contain drop-shadow-2xl" 
                 />

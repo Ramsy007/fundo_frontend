@@ -1,14 +1,70 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../assets/logo.png";
 import Navbarsteps from "../components/home/Navbarsteps";
 import FooterStep from "../components/FooterStep";
 import { useNavigate } from "react-router-dom";
+import { userAPI } from "../services/api";
+import { useDispatch } from "react-redux";
+import { changeTracker } from "../redux/slices/lTracherSlice";
+
 
 export default function Congratulations() {
   const navigate = useNavigate();
-  // Example data, replace with real props or state as needed
-  const amount = 3175;
-  const accountEnding = "9421";
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [congratulationData, setCongratulationData] = useState({
+    amount: 0,
+    accountEnding: ""
+  });
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(changeTracker({ step: 5 }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    const fetchCongratulationData = async () => {
+      try {
+        const response = await userAPI.getCongratulationData();
+        setCongratulationData({
+          amount: response.amount || 0,
+          accountEnding: response.accountEnding || ""
+        });
+      } catch (err) {
+        setError("Failed to load congratulation data");
+        console.error("Error fetching congratulation data:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCongratulationData();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#404064]"></div>
+      </div>
+    );
+  }
+
+  // if (error) {
+  //   return (
+  //     <div className="min-h-screen flex items-center justify-center bg-white">
+  //       <div className="text-center">
+  //         <p className="text-red-500 mb-4">{error}</p>
+  //         <button
+  //           onClick={() => navigate("/dashboard")}
+  //           className="bg-[#404064] text-white px-4 py-2 rounded-full"
+  //         >
+  //           Go to Dashboard
+  //         </button>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-white pl-0 pr-0 md:pl-6 md:pr-6 rounded-b-lg relative">
@@ -45,8 +101,8 @@ export default function Congratulations() {
                 {/* Amount Card */}
                 <div className="w-full bg-[#e9eafc] rounded-xl px-4 py-4 mb-5 flex flex-col items-center border border-[#bfc8e6]">
                   <div className="text-xs sm:text-sm text-[#404064] font-semibold text-center mb-1">Amount Disbursed</div>
-                  <div className="text-2xl sm:text-3xl font-bold text-[#404064] mb-1">₹{amount.toLocaleString()}</div>
-                  <div className="text-xs sm:text-sm text-[#404064] text-center">to account ending with *****{accountEnding}</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-[#404064] mb-1">₹{congratulationData.amount.toLocaleString()}</div>
+                  <div className="text-xs sm:text-sm text-[#404064] text-center">to account ending with *****{congratulationData.accountEnding}</div>
                 </div>
                 <button
                   onClick={() => navigate("/dashboard")}

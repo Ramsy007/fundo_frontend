@@ -23,20 +23,35 @@ export default function OTPAadhar() {
       newOtp[index] = value;
       setOtp(newOtp);
 
-      if (value && index < 3) {
+      if (value && index < 5) {
         inputRefs.current[index + 1]?.focus();
       }
     }
   };
 
+  const handleKeyDown = (index, e) => {
+    if (e.key === "Backspace" || e.key === "Delete") {
+      e.preventDefault();
+      const newOtp = [...otp];
+      
+      // If current input is empty and not the first input, focus previous
+      if (!newOtp[index] && index > 0) {
+        inputRefs.current[index - 1]?.focus();
+      } else {
+        // Clear current input
+        newOtp[index] = "";
+        setOtp(newOtp);
+        // Focus current input
+        inputRefs.current[index]?.focus();
+      }
+    }
+  };
+
   const handleSubmit = async (e) => {
-    console.log("1. handleSubmit started");
     e.preventDefault();
     const otpValue = otp.join("");
-    console.log("2. OTP Value:", otpValue);
 
     if (otpValue.length !== 6) {
-      console.log("3. Invalid OTP length");
       setError("Please enter all 6 digits");
       return;
     }
@@ -49,36 +64,19 @@ export default function OTPAadhar() {
         aadhaarNo: aadhaarNo,
       };
 
-      console.log("4. Submitting data:", data);
       const response = await userAPI.submitAadharOTP(data);
-      console.log("5. Response received:", response);
 
       if (response) {
-        console.log("6. Response is valid");
-        dispatch(changeTracker({ step: 4 }));
-        console.log("7. Tracker updated");
-
-        try {
-          console.log("8. Attempting navigation");
-          await navigate("/apply/e-sign", {
-            state: {
-              message: "Aadhar verification successful",
-              aadhaarNo: aadhaarNo,
-            },
-          });
-          console.log("9. Navigation successful");
-        } catch (navError) {
-          console.error("Navigation error:", navError);
-        }
-      } else {
-        console.log("10. Invalid response");
-        setError("Verification failed. Please try again.");
+        navigate("/apply/e-sign", {
+          state: {
+            message: "Aadhar verification successful",
+            aadhaarNo: aadhaarNo,
+          },
+        });
       }
     } catch (error) {
-      console.error("11. API Error:", error);
       setError(error.response?.data?.error || "Invalid OTP. Please try again.");
     } finally {
-      console.log("12. Setting loading to false");
       setIsLoading(false);
     }
   };
@@ -112,7 +110,7 @@ export default function OTPAadhar() {
               {/* Text Content */}
               <div className="text-center mb-8">
                 <h2 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-[#222] mb-4">
-                  Baba just sent you sacred 4-digit code.
+                  Baba just sent you sacred 6-digit code.
                 </h2>
                 <p className="text-[10px] sm:text-xs md:text-sm text-black">
                   It landed on your phone tied to Aadhar — check quick!
@@ -125,21 +123,27 @@ export default function OTPAadhar() {
                   {otp.map((digit, index) => (
                     <input
                       key={index}
-                      ref={(el) => (inputsRef.current[index] = el)}
+                      ref={(el) => (inputRefs.current[index] = el)}
                       type="text"
                       inputMode="numeric"
                       maxLength={1}
                       value={digit}
                       onChange={(e) => handleChange(index, e.target.value)}
+                      onKeyDown={(e) => handleKeyDown(index, e)}
                       className="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 text-center text-xs sm:text-sm md:text-base font-bold border-2 border-gray-300 rounded-md bg-white focus:outline-none focus:border-[#243112]"
                     />
                   ))}
                 </div>
 
+                {/* Error Message */}
+                {error && (
+                  <p className="text-red-500 text-xs mb-4 text-center">{error}</p>
+                )}
+
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  disabled={otp.some((digit) => digit === "")}
+                  disabled={otp.some((digit) => digit === "") || isLoading}
                   className="w-full bg-[#243112] text-white font-semibold py-2.5 sm:py-3 md:py-4 rounded-full text-xs sm:text-sm md:text-base flex items-center justify-center gap-2 shadow hover:bg-[#243112] transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? "PROCESSING..." : "SUBMIT"}

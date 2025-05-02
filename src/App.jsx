@@ -17,9 +17,19 @@ import OTPAadhar from "./pages/OTPAadhar";
 import Esign from "./pages/Esign";
 import Dashboard from "./pages/Dashboard";
 import Congratulations from "./pages/Congratulations";
+import Disbursal from "./pages/Disbursal";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+import References from "./pages/References";
+
+let persistor = persistStore(store);
 
 function App() {
   return (
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
     <AuthProvider>
       <BrowserRouter>
         <Routes>
@@ -38,11 +48,15 @@ function App() {
           <Route path="/apply/adhar-card" element={<Aadhar />} />
           <Route path="/apply/otp-aadhar" element={<OTPAadhar />} />
           <Route path="/apply/e-sign" element={<Esign />} />
+          <Route path="/apply/disbursal" element={<Disbursal />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/apply/congratulations-card" element={<Congratulations />} />
+          <Route path="/apply/references" element={<References />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
+    </PersistGate>
+    </Provider>
   );
 }
 

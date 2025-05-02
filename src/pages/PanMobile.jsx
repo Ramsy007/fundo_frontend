@@ -5,15 +5,15 @@ import Navbarsteps from "../components/home/Navbarsteps";
 import FooterStep from "../components/FooterStep";
 import { useNavigate } from "react-router-dom";
 import { authAPI } from "../services/api";
-// import { useDispatch } from "react-redux";
-// import { changeTracker } from "../redux/slices/lTracherSlice";
+import { useDispatch } from "react-redux";
+import { changeTracker } from "../redux/slices/lTracherSlice";
 import TermsAndConditionsModal from "../components/TermsAndConditionsModal";
 // import Button from "../components/Button";
 import { useAuth } from "../context/AuthContext";
 
 export default function PanMobile() {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // const { isAuthenticated } = useAuth();
 
   const [showTerms, setShowTerms] = useState(false);
@@ -27,7 +27,7 @@ export default function PanMobile() {
   const [userLocation, setUserLocation] = useState({ lat: null, lng: null });
 
   useEffect(() => {
-    // dispatch(changeTracker({ step: 1 }));
+    dispatch(changeTracker({ step: 1 }));
   }, []);
 
   useEffect(() => {

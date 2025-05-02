@@ -58,7 +58,7 @@ export default function Home() {
           <QuickEasy />
           <HomeFooter />
         </div>
-        {showButton && (
+        {/* {showButton && (
           <motion.div
             className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50"
             animate={{
@@ -75,7 +75,7 @@ export default function Home() {
               COMING SOON...
             </button>
           </motion.div>
-        )}
+        )} */}
       </div>
     </div>
   );

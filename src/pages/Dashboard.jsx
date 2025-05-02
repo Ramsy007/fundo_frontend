@@ -11,8 +11,14 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+// import { useSelector, useDispatch } from "react-redux";
 import Navbarsteps from "../components/home/Navbarsteps";
 import FooterStep from "../components/FooterStep";
+import { userAPI } from "../services/api";
+import { useAuth } from "../context/AuthContext";
+import Feedback from "../components/Feedback";
+import { formatDate } from "../utils/formatDate";
+// import { changeTracker } from "../redux/slices/lTracherSlice";
 
 const financialTips = [
   {
@@ -25,23 +31,46 @@ const financialTips = [
     tip: "Regular and timely loan repayments can help you become eligible for lower interest rates on your next loan.",
   },
   {
-    tip: "Download our app and track your money like a boss or a baba.",
+    tip: "Maintaining a good credit score through timely EMI payments can help you get instant loan approvals when needed.",
+  },
+  {
+    tip: "Plan your EMIs around your salary date to ensure smooth repayments and avoid any late payment charges.",
+  },
+  {
+    tip: "Refer your friends to earn rewards and build a strong relationship with us for better loan benefits.",
+  },
+  {
+    tip: "Keep your KYC documents updated to ensure quick processing of future loan requests.",
+  },
+  {
+    tip: "Download our mobile app to track your loan status and make instant repayments anytime, anywhere.",
+  },
+  {
+    tip: "Repay your current loan successfully to become eligible for higher loan amounts and special offers.",
   },
 ];
 
 function Dashboard() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const [currentTip, setCurrentTip] = useState(0);
-  const [dashboardData] = useState({
-    userName: "GIRDHAR MISHRA",
-    amountDisbursed: 28000,
-    disbursalDate: "2024-03-20",
-    repaymentDate: "2024-04-20",
-    repaymentAmount: 29500,
+  const [dashboardData, setDashboardData] = useState({
+    userName: "User",
+    amountDisbursed: 0,
+    disbursalDate: new Date().toISOString().split("T")[0],
+    repaymentDate: new Date().toISOString().split("T")[0],
+    repaymentAmount: 0,
     loyaltyPoints: 250,
     nextEarning: 50,
     creditScore: 734,
   });
+  const [isLoading, setIsLoading] = useState(true);
+  const [showFeedback, setShowFeedback] = useState(false);
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(changeTracker({ step: 6 }));
+  // }, [dispatch]);
 
   useEffect(() => {
     // Generate random tip initially
@@ -52,22 +81,63 @@ function Dashboard() {
       setCurrentTip(Math.floor(Math.random() * financialTips.length));
     }, 24 * 60 * 60 * 1000);
 
+    const feedbackTimer = setTimeout(() => {
+      setShowFeedback(true);
+    }, 3000);
+
+    // Fetch loan status data
+    const fetchLoanStatus = async () => {
+      try {
+        setIsLoading(true);
+        const response = await userAPI.getLoanStatus();
+        if (response) {
+          const loanData = response.data;
+          setDashboardData((prevData) => ({
+            ...prevData,
+            userName: loanData?.full_name,
+            amountDisbursed: loanData?.amount_disbursed,
+            repaymentDate: loanData?.repayment_date,
+            repaymentAmount: loanData?.repayment_amount,
+            loyaltyPoints: loanData?.loyalty_point,
+            nextEarning: loanData?.next_earning,
+            creditScore: loanData?.credit_score,
+          }));
+        }
+      } catch (error) {
+        console.error("Error fetching loan status:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchLoanStatus();
+
     return () => {
       clearInterval(interval);
+      clearInterval(feedbackTimer);
     };
   }, []);
 
-  const handleLogout = () => {
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      await userAPI.logout();
+      logout();
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Error during logout:", error);
+      logout();
+      window.location.href = "/";
+    }
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-IN", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
+  const handleRedeem = async () => {
+    try {
+      const response = await userAPI.getRedeemAccessKey();
+      const accessKey = response.accessKey;
+      const redeemUrl = `https://blinkr.paybypoint.com/auth/sso-login?access_key=${accessKey}`;
+      window.open(redeemUrl, '_blank');
+    } catch (error) {
+      console.error("Error during redeem:", error);
+    }
   };
 
   return (
@@ -113,6 +183,7 @@ function Dashboard() {
                       }}
                       whileTap={{ scale: 0.95 }}
                       className="bg-[#404064] text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2"
+                      onClick={() => window.open("https://billzy.in/home", "_blank")}
                     >
                       <FaWallet className="w-4 h-4" />
                       Repay Now
@@ -290,8 +361,12 @@ function Dashboard() {
                 <p className="text-sm text-gray-600 mt-1">
                   Next earning: {dashboardData.nextEarning} points
                 </p>
-                <button className="bg-[#404064] text-white px-4 py-2 rounded-lg mt-4 font-medium hover:bg-[#353556] transition-colors">
-                  Redeem
+                <button 
+                  className="bg-[#404064] text-white px-4 py-2 rounded-lg mt-4 font-medium hover:bg-[#353556] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={handleRedeem}
+                  disabled={!dashboardData.loyaltyPoints}
+                >
+                  Instant Gifts & Rewards
                 </button>
               </motion.div>
 
@@ -313,7 +388,9 @@ function Dashboard() {
                   <p className="text-2xl font-bold text-[#404064]">₹500</p>
                   <FaArrowRight className="w-5 h-5 text-[#404064]" />
                 </div>
-                <p className="text-sm text-gray-600 mt-1">Per successful referral</p>
+                <p className="text-sm text-gray-600 mt-1">
+                  Per successful referral
+                </p>
               </motion.div>
             </div>
           </motion.div>
@@ -322,6 +399,29 @@ function Dashboard() {
 
       {/* Footer */}
       <FooterStep />
+
+      <AnimatePresence>
+        {showFeedback && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
+              onClick={() => setShowFeedback(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-4xl px-4"
+            >
+              <Feedback onClose={() => setShowFeedback(false)} />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
