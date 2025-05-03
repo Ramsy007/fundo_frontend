@@ -29,7 +29,7 @@ export default function Contact() {
               <p className="text-xl sm:text-2xl md:text-4xl text-gray-800 mb-4 sm:mb-6 leading-relaxed">
                 Got questions, cash confusion,
                 <br />
-                or <span className="font-bold">just wanna say hi?</span>
+                or just wanna say hi?
               </p>
               <p className="text-xl sm:text-2xl md:text-4xl text-gray-800 leading-relaxed">
                 Baba's ears (and inbox) are always open.
@@ -61,56 +61,21 @@ export default function Contact() {
 
               <div>
                 <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 sm:mb-4">
-                  App Help
+                  
                 </h3>
                 <p className="text-lg sm:text-xl md:text-3xl text-gray-800 leading-relaxed">
-                  Open the app → Go to "Help & Support" → Chat with Baba's
-                  minions.
+                  
                   <br />
-                  or <span className="font-bold">just wanna say hi?</span>
+                  <span className="font-bold"></span>
                 </p>
                 <p className="text-2xl sm:text-3xl lg:text-4xl text-gray-800 leading-relaxed">
-                  Baba's ears (and inbox) are always open.
+              
                 </p>
               </div>
             </div>
 
             {/* Have a Doubt Section */}
-            <div className="mb-24">
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-teal-900 tracking-[0.05em] mb-10">
-                HAVE A DOUBT?
-              </h2>
-              <p className="text-2xl sm:text-3xl lg:text-4xl text-gray-800 mb-12 leading-relaxed">
-                Drop it like it's hot — we'll sort it faster than your UPI ping.
-              </p>
-
-              <div className="space-y-12">
-                <div>
-                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-                    Email Support
-                  </h3>
-                  <p className="text-xl sm:text-2xl lg:text-3xl text-gray-800 mb-2">
-                    support@fundobaba.in
-                  </p>
-                  <p className="text-xl sm:text-2xl lg:text-3xl text-gray-800 leading-relaxed">
-                    We reply faster than your crush leaves you on "Seen."
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-                    App Help
-                  </h3>
-                  <p className="text-xl sm:text-2xl lg:text-3xl text-gray-800 leading-relaxed">
-                    Open the app → Go to "Help & Support" → Chat with Baba's
-                    minions.
-                    <br />
-                    (Yes, real humans. Baba doesn't do bots.)
-                  </p>
-                </div>
-              </div>
-            </div>
-
+          
             {/* Registered Office Section */}
             <div>
               <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-teal-900 tracking-[0.1em] mb-6 sm:mb-12">

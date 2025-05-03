@@ -172,6 +172,38 @@ const About = () => {
 
               {/* Mission & Meet Baba */}
               <div className="flex flex-col items-center w-full mt-2 sm:mt-4 md:mt-8">
+                <div className="w-full md:w-[90vw] min-h-[120px] sm:min-h-[180px] md:min-h-[300px] rounded-b-xl sm:rounded-b-2xl rounded-t-2xl sm:rounded-t-3xl bg-[#b13a2f] p-4 sm:p-6 md:p-10 text-center mt-[-8px] sm:mt-[-14px]">
+                  <div className="w-full md:w-4/5 mx-auto">
+                    <div className="font-poppins text-md sm:text-xl md:text-2xl font-semibold tracking-wide text-white mb-4 sm:mb-6 md:mb-8">
+                      FundOBaba proudly partners with{" "}
+                      <span className="font-bold">U.Y. Fincorp Limited</span>, a
+                      renowned RBI-registered NBFC since 1993, with over three
+                      decades of financial excellence.
+                      <br />
+                      <span className="block mt-2">
+                        Baba powered by U.Y. Fincorp brings the blessings to
+                        life.
+                      </span>
+                      <br />
+                      <span className="block mt-4">
+                        U.Y. Fincorp's Portfolio Includes:
+                      </span>
+                    </div>
+
+                    <ul className="list-disc list-inside font-poppins text-sm sm:text-base md:text-xl text-white space-y-2 sm:space-y-3 md:space-y-4 text-left sm:text-center md:text-left px-4 sm:px-8 md:px-12">
+                      <li>Personal Loans</li>
+                      <li>Business Loans</li>
+                      <li>Promoter & Acquisition Funding</li>
+                      <li>Real Estate Financing</li>
+                      <li>Equity Investments</li>
+                      <li>
+                        Strategic Participation in Listed and Unlisted
+                        Securities
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
                 <div
                   className="w-full md:w-[90vw] min-h-[120px] sm:min-h-[180px] md:min-h-[300px] rounded-t-xl sm:rounded-t-2xl rounded-b-none bg-[#F6E7E4] p-2 sm:p-4 md:p-8 text-center"
                   // data-aos="fade-up"
