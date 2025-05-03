@@ -132,13 +132,13 @@ export default function PanMobile() {
         navigate("/apply/otp-mobile", { state: stateData });
       }
       // For demo, just navigate with dummy state
-      const stateData = {
-        PAN: data.PAN,
-        phone_number: data.phone_number,
-        request_id: response.request_id,
-      };
-      sessionStorage.setItem("panMobileData", JSON.stringify(stateData));
-      navigate("/apply/otp-mobile", { state: stateData });
+      // const stateData = {
+      //   PAN: data.PAN,
+      //   phone_number: data.phone_number,
+      //   request_id: response.request_id,
+      // };
+      // sessionStorage.setItem("panMobileData", JSON.stringify(stateData));
+      // navigate("/apply/otp-mobile", { state: stateData });
     } catch (error) {
       setError(
         error.response?.data?.message || "Failed to send OTP. Please try again."

@@ -32,11 +32,11 @@ export default function OTPMobile() {
   console.log("phone_number:", phone_number); 
 
   // Redirect if required data is missing
-  useEffect(() => {
-    if (!PAN || !request_id || !phone_number) {
-      navigate("/apply/pan-mobile", { replace: true });
-    }
-  }, [PAN, request_id, phone_number, navigate]);
+  // useEffect(() => {
+  //   if (!PAN || !request_id || !phone_number) {
+  //     navigate("/apply/pan-mobile", { replace: true });
+  //   }
+  // }, [PAN, request_id, phone_number, navigate]);
 
   // useEffect(() => {
   //   dispatch(changeTracker({ step: 1 }));

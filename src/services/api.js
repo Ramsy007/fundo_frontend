@@ -1,7 +1,8 @@
 import axios from "axios";
 
+
 // Get environment variables
-const API_URL = "http://localhost:8006/api";
+const API_URL = "http://52.66.192.14:8006/api";
 
 console.log("API_URL", API_URL);
 
