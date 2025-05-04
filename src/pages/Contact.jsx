@@ -2,19 +2,20 @@ import React from "react";
 import BabaImage from "../assets/contact/baba.png";
 import Navbar from "../components/Navbar";
 import Logo from "../assets/Logo.png";
+import Footer from "../components/common/Footer";
 
 export default function Contact() {
   return (
     <div className="bg-black pl-10 pr-10 pb-10 max-[1320px]:pl-5 max-[1320px]:pr-5 max-[425px]:pl-2 max-[425px]:pr-2">
-      <div className="bg-white pb-15 rounded-b-[50px]">
+      <div className="bg-white  rounded-b-[50px]">
         <div className="flex justify-between items-center gap-4 mr-10 pt-5 pl-5">
           <img src={Logo} alt="Logo" className="h-10 w-auto" />
           <Navbar />
         </div>
 
-        <div className="max-w-[1400px] mx-auto  p-6 sm:p-16">
+        <div className="max-w-[1400px] mx-auto  p-6 sm:p-16 pb-0">
           {/* Contact Baba Section */}
-          <div className="flex flex-col sm:flex-row items-center gap-8 sm:gap-20 mb-16 sm:mb-32">
+          <div className="flex flex-col sm:flex-row items-center gap-8 sm:gap-20">
             <div className="w-[250px] sm:w-[400px]">
               <img
                 src={BabaImage}
@@ -125,6 +126,7 @@ export default function Contact() {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   );

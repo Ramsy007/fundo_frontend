@@ -6,22 +6,29 @@ function LoanProcess() {
         3-STEP LOAN <br /> PROCESS
       </h2>
       <div className={styles.steps}>
-        <div className={styles.step}>
-          <h3>Money in Your Account</h3>
-          <p>Before your chai gets cold — Baba credits your cash.</p>
-        </div>
+        {/* <div className={styles.step}>
+          <h3>Download the App</h3>
+          <p>
+            Your shortcut to instant money begins here. Android ya iOS — Baba
+            loves both.
+          </p>
+        </div> */}
         <div className={styles.step}>
           <h3>Sign Up & Fill Details</h3>
           <p>
-            Aadhaar, PAN, bank info — done in a jiffy. Baba doesn't ask for your
+            Aadhaar, PAN, bank info — done in a jiffy. Baba doesn’t ask for your
             blood group.
           </p>
         </div>
         <div className={styles.step}>
           <h3>Get Approved Instantly</h3>
           <p>
-            Real-time checks. No long forms. No <em>"sir kal aana."</em>
+            Real-time checks. No long forms. No <em>“sir kal aana.”</em>
           </p>
+        </div>
+        <div className={styles.step}>
+          <h3>Money in Your Account</h3>
+          <p>Before your chai gets cold — Baba credits your cash.</p>
         </div>
       </div>
     </div>

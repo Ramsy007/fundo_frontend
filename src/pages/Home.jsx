@@ -11,6 +11,7 @@ import MoneyMoments from "../components/home/MoneyMoments";
 import LoanTypesScroll from "../components/home/LoanTypesScroll";
 import Logo from "../assets/Logo.png";
 import { motion } from "framer-motion";
+import Footer from "../components/common/Footer";
 
 export default function Home() {
   const [showButton, setShowButton] = useState(false);
@@ -18,7 +19,6 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 700) {
-        // 👈 adjust this scroll value as needed
         setShowButton(true);
       } else {
         setShowButton(false);
@@ -30,7 +30,7 @@ export default function Home() {
   }, []);
   return (
     <div className="bg-black pl-10 pr-10 pb-10 max-[1320px]:pl-5 max-[1320px]:pr-5 max-[425px]:pl-2 max-[425px]:pr-2">
-      <div className="bg-white pb-15 rounded-b-[50px]">
+      <div className="bg-white  rounded-b-[50px]">
         <div className="flex justify-between items-center gap-4 mr-10 pt-5 pl-5">
           <img src={Logo} alt="Logo" className="h-10 w-auto" />
           <Navbar />
@@ -58,7 +58,8 @@ export default function Home() {
           <QuickEasy />
           <HomeFooter />
         </div>
-        {/* {showButton && (
+        <Footer />
+        {showButton && (
           <motion.div
             className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50"
             animate={{
@@ -75,7 +76,7 @@ export default function Home() {
               COMING SOON...
             </button>
           </motion.div>
-        )} */}
+        )}
       </div>
     </div>
   );

@@ -88,14 +88,14 @@ function Navbar() {
         </svg>
       </button>
 
-      {/* Sidebar - Removed background */}
+      {/* Sidebar */}
       <div
-        className={`fixed top-0 right-0 h-full w-full md:w-64 z-50 backdrop-blur-sm transform transition-transform duration-300 ease-in-out
+        className={`fixed top-0 right-0 h-full w-full md:w-64 z-50 bg-white transform transition-transform duration-300 ease-in-out
         ${sidebarOpen ? "translate-x-0" : "translate-x-[100%]"}`}
       >
         <div className="flex justify-end p-4">
           <button
-            className="text-2xl text-white focus:outline-none"
+            className="text-2xl text-black focus:outline-none"
             onClick={() => setSidebarOpen(false)}
             aria-label="Close menu"
           >
@@ -109,8 +109,9 @@ function Navbar() {
               to={link.to}
               end={link.exact}
               className={({ isActive }) =>
-                `text-center py-2 ml-15 text-white font-semibold text-[18px] tracking-[5.2px] transition-all duration-500 ease-out transform translate-x-[-40px] opacity-0 sidebar-link${idx} hover:text-white/80 ` +
-                (isActive ? " font-bold" : "")
+                `text-center py-2 ml-15 text-black font-semibold text-[18px] tracking-[5.2px] transition-all duration-500 ease-out transform translate-x-[-40px] opacity-0 sidebar-link${idx} hover:text-[#0A3D4D] ${
+                  isActive ? "border-b-2 border-[#0A3D4D] font-bold" : ""
+                }`
               }
               style={{
                 transitionDelay: `${idx * 100 + 200}ms`,

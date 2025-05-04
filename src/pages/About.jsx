@@ -6,7 +6,7 @@ import Baba1 from "./../assets/Pages/Aboutus/Baba1.png";
 import Baba2 from "./../assets/Pages/Aboutus/Baba2.png";
 import Baba3 from "./../assets/Pages/Aboutus/Baba3.png";
 import Baba4 from "./../assets/Pages/Aboutus/Baba4.png";
-
+import Footer from "../components/common/Footer";
 const About = () => {
   useEffect(() => {
     // AOS.init({
@@ -19,7 +19,7 @@ const About = () => {
     <div>
       {/* Header Section: Logo (left) + Navbar (right) */}
       <div className="bg-black pl-10 pr-10 pb-10 max-[1320px]:pl-5 max-[1320px]:pr-5 max-[425px]:pl-2 max-[425px]:pr-2">
-        <div className="bg-white pb-15 rounded-b-[50px]">
+        <div className="bg-white  rounded-b-[50px]">
           <div className="flex items-center justify-between px-5 pr-10 sm:px-4 md:px-8 pt-2 sm:pt-4 md:pt-6 mb-2 sm:mb-4 md:mb-8">
             <img
               src="./logo.png"
@@ -268,6 +268,7 @@ const About = () => {
               </div>
             </div>
           </div>
+          <Footer />
         </div>
       </div>
     </div>
