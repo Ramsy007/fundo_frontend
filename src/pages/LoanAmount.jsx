@@ -21,8 +21,9 @@ export default function LoanAmount() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // const { leadStage, isLoadingStage, errorStage } = useLeadStage();
-  // const { eligibleLoanAmount } = useSelector((state) => state.userData);
-  const eligibleLoanAmount = "56568";
+  const { eligibleLoanAmount } = useSelector((state) => state.userData);
+  console.log("eligibleLoanAmount loan amount", eligibleLoanAmount);
+  // const eligibleLoanAmount = "56568";
   const [loanAmountRequested, setLoanAmountRequested] = useState(0);
   const [manualAmount, setManualAmount] = useState("");
   const [showAmountSelector, setShowAmountSelector] = useState(true);
