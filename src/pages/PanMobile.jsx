@@ -121,6 +121,7 @@ export default function PanMobile() {
         lat: userLocation.lat,
         lng: userLocation.lng,
       };
+      // const response = await authAPI.sendOTP(data);
       const response = await authAPI.sendOTP(data);
       if (response) {
         const stateData = {
@@ -175,9 +176,7 @@ export default function PanMobile() {
               style={{ minHeight: "240px" }}
             >
               {/* BabaStep Image */}
-              <div
-                className="absolute -top-13 -left-4 md:-top-12 md:-left-20 z-40"
-              >
+              <div className="absolute -top-13 -left-4 md:-top-12 md:-left-20 z-40">
                 <img
                   src="/Babastep.png"
                   alt="Baba"
@@ -188,9 +187,14 @@ export default function PanMobile() {
                 <h2 className="text-sm sm:text-base md:text-xl font-bold text-[#222] mb-1">
                   Step into Baba's zone. Quick PAN. Faster Loan.
                 </h2>
-                <p className="text-[8px] sm:text-[10px] text-gray-600">Please enter your details below</p>
+                <p className="text-[8px] sm:text-[10px] text-gray-600">
+                  Please enter your details below
+                </p>
               </div>
-              <form className="w-full flex flex-col gap-2 sm:gap-3 md:gap-4" onSubmit={handleSubmit}>
+              <form
+                className="w-full flex flex-col gap-2 sm:gap-3 md:gap-4"
+                onSubmit={handleSubmit}
+              >
                 <div>
                   <input
                     type="text"
@@ -198,10 +202,14 @@ export default function PanMobile() {
                     value={formData.pan}
                     onChange={handleInputChange}
                     placeholder="Enter PAN (e.g., ABCDE1234F)"
-                    className={`w-full px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg border ${errors.pan ? "border-red-500" : "border-gray-500"} focus:outline-none focus:ring-2 focus:ring-[#971201] bg-[#e9b6b6] text-gray-800 placeholder:text-[#b48b8b] text-xs sm:text-base font-medium`}
+                    className={`w-full px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg border ${
+                      errors.pan ? "border-red-500" : "border-gray-500"
+                    } focus:outline-none focus:ring-2 focus:ring-[#971201] bg-[#e9b6b6] text-gray-800 placeholder:text-[#b48b8b] text-xs sm:text-base font-medium`}
                   />
                   {errors.pan && (
-                    <p className="text-red-500 text-[8px] sm:text-xs mt-1">{errors.pan}</p>
+                    <p className="text-red-500 text-[8px] sm:text-xs mt-1">
+                      {errors.pan}
+                    </p>
                   )}
                 </div>
                 <div>
@@ -211,16 +219,22 @@ export default function PanMobile() {
                     value={formData.phone}
                     onChange={handleInputChange}
                     placeholder="Enter Mobile No. (Aadhaar Registered)"
-                    className={`w-full px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg border ${errors.phone ? "border-red-500" : "border-gray-500"} focus:outline-none focus:ring-2 focus:ring-[#971201] bg-[#e9b6b6] text-gray-800 placeholder:text-[#b48b8b] text-xs sm:text-base font-medium`}
+                    className={`w-full px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg border ${
+                      errors.phone ? "border-red-500" : "border-gray-500"
+                    } focus:outline-none focus:ring-2 focus:ring-[#971201] bg-[#e9b6b6] text-gray-800 placeholder:text-[#b48b8b] text-xs sm:text-base font-medium`}
                   />
                   {errors.phone && (
-                    <p className="text-red-500 text-[8px] sm:text-xs mt-1">{errors.phone}</p>
+                    <p className="text-red-500 text-[8px] sm:text-xs mt-1">
+                      {errors.phone}
+                    </p>
                   )}
                 </div>
                 <div className="flex items-center text-[10px] sm:text-sm mt-1">
                   <button
                     type="button"
-                    className={`w-3 h-3 sm:w-4 sm:h-4 border ${agreed ? 'border-[#971201]' : 'border-gray-400'} rounded mr-2 flex items-center justify-center bg-white focus:outline-none transition-all duration-200`}
+                    className={`w-3 h-3 sm:w-4 sm:h-4 border ${
+                      agreed ? "border-[#971201]" : "border-gray-400"
+                    } rounded mr-2 flex items-center justify-center bg-white focus:outline-none transition-all duration-200`}
                     onClick={handleCheckboxClick}
                     aria-checked={agreed}
                   >
@@ -246,11 +260,16 @@ export default function PanMobile() {
                     className="text-[#b48b8b] cursor-pointer font-medium"
                     onClick={handleCheckboxClick}
                   >
-                    I agree to the <span className="text-[#971201] font-semibold">terms and conditions</span>
+                    I agree to the{" "}
+                    <span className="text-[#971201] font-semibold">
+                      terms and conditions
+                    </span>
                   </label>
                 </div>
                 {showConsentError && (
-                  <p className="text-red-500 text-[8px] sm:text-xs mt-1">Please agree to the terms and conditions</p>
+                  <p className="text-red-500 text-[8px] sm:text-xs mt-1">
+                    Please agree to the terms and conditions
+                  </p>
                 )}
                 <button
                   type="submit"
@@ -259,13 +278,22 @@ export default function PanMobile() {
                 >
                   {isLoading ? "Sending..." : "SUBMIT"}
                   <span className="bg-white text-[#971201] rounded-full p-0.5 sm:p-1 ml-1">
-                    <svg width="14" height="14" sm:width="18" sm:height="18" fill="currentColor" viewBox="0 0 20 20">
+                    <svg
+                      width="14"
+                      height="14"
+                      sm:width="18"
+                      sm:height="18"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
                       <path d="M6 4l8 6-8 6V4z" />
                     </svg>
                   </span>
                 </button>
                 {error && (
-                  <p className="text-red-500 text-[8px] sm:text-xs mt-2">{error}</p>
+                  <p className="text-red-500 text-[8px] sm:text-xs mt-2">
+                    {error}
+                  </p>
                 )}
               </form>
             </div>
