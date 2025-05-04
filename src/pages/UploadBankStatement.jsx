@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { userAPI } from "../services/api";
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { updateEligibleLoanAmount } from "../redux/slices/loanSlice";
+import { updateEligibleLoanAmount } from "../redux/slices/userDataSlice";
 import logo from "../assets/logo.png";
 import StepsList from "../components/StepsList";
 import Navbarsteps from "../components/home/Navbarsteps";
@@ -14,7 +15,7 @@ import { FaCloudUploadAlt, FaEye, FaEyeSlash, FaFileAlt, FaLock } from "react-ic
 
 export default function UploadBankStatement() {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -63,7 +64,7 @@ export default function UploadBankStatement() {
       if (response.maxLoanAmount) {
         const newMaxAmount = parseInt(response.maxLoanAmount);
         setMaxLoanAmount(newMaxAmount);
-        // dispatch(updateEligibleLoanAmount(newMaxAmount));
+        dispatch(updateEligibleLoanAmount(newMaxAmount));
         console.log("Updated max loan amount:", newMaxAmount);
       }
 
@@ -125,10 +126,10 @@ export default function UploadBankStatement() {
                   >
                     {/* BabaStep Image */}
                     <div className="absolute -top-17 -left-4 md:-top-18 md:-left-32 z-40">
-                      <img 
-                        src="/Babaotp.png" 
-                        alt="Baba" 
-                        className="w-[90px] h-[90px] sm:w-[110px] sm:h-[110px] md:w-[140px] md:h-[140px] lg:w-[180px] lg:h-[180px] object-contain drop-shadow-2xl" 
+                      <img
+                        src="/Babaotp.png"
+                        alt="Baba"
+                        className="w-[90px] h-[90px] sm:w-[110px] sm:h-[110px] md:w-[140px] md:h-[140px] lg:w-[180px] lg:h-[180px] object-contain drop-shadow-2xl"
                       />
                     </div>
 
@@ -265,9 +266,9 @@ export default function UploadBankStatement() {
             <div className="bg-[#04344a] p-6 flex flex-col items-center">
               {/* Money Bag Icon */}
               <div className="w-48 h-48 mb-3 -ml-8">
-                <img 
-                  src="/boom-upload-bank-statement.png" 
-                  alt="Boom" 
+                <img
+                  src="/boom-upload-bank-statement.png"
+                  alt="Boom"
                   className="w-full h-full object-contain"
                 />
               </div>
