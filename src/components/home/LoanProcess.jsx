@@ -6,13 +6,13 @@ function LoanProcess() {
         3-STEP LOAN <br /> PROCESS
       </h2>
       <div className={styles.steps}>
-        <div className={styles.step}>
+        {/* <div className={styles.step}>
           <h3>Download the App</h3>
           <p>
             Your shortcut to instant money begins here. Android ya iOS — Baba
             loves both.
           </p>
-        </div>
+        </div> */}
         <div className={styles.step}>
           <h3>Sign Up & Fill Details</h3>
           <p>

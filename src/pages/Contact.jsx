@@ -2,19 +2,20 @@ import React from "react";
 import BabaImage from "../assets/contact/baba.png";
 import Navbar from "../components/Navbar";
 import Logo from "../assets/Logo.png";
+import Footer from "../components/common/Footer";
 
 export default function Contact() {
   return (
     <div className="bg-black pl-10 pr-10 pb-10 max-[1320px]:pl-5 max-[1320px]:pr-5 max-[425px]:pl-2 max-[425px]:pr-2">
-      <div className="bg-white pb-15 rounded-b-[50px]">
+      <div className="bg-white  rounded-b-[50px]">
         <div className="flex justify-between items-center gap-4 mr-10 pt-5 pl-5">
           <img src={Logo} alt="Logo" className="h-10 w-auto" />
           <Navbar />
         </div>
 
-        <div className="max-w-[1400px] mx-auto  p-6 sm:p-16">
+        <div className="max-w-[1400px] mx-auto  p-6 sm:p-16 pb-0">
           {/* Contact Baba Section */}
-          <div className="flex flex-col sm:flex-row items-center gap-8 sm:gap-20 mb-16 sm:mb-32">
+          <div className="flex flex-col sm:flex-row items-center gap-8 sm:gap-20">
             <div className="w-[250px] sm:w-[400px]">
               <img
                 src={BabaImage}
@@ -29,7 +30,7 @@ export default function Contact() {
               <p className="text-xl sm:text-2xl md:text-4xl text-gray-800 mb-4 sm:mb-6 leading-relaxed">
                 Got questions, cash confusion,
                 <br />
-                or <span className="font-bold">just wanna say hi?</span>
+                or just wanna say hi?
               </p>
               <p className="text-xl sm:text-2xl md:text-4xl text-gray-800 leading-relaxed">
                 Baba's ears (and inbox) are always open.
@@ -61,56 +62,21 @@ export default function Contact() {
 
               <div>
                 <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 sm:mb-4">
-                  App Help
+                  
                 </h3>
                 <p className="text-lg sm:text-xl md:text-3xl text-gray-800 leading-relaxed">
-                  Open the app → Go to "Help & Support" → Chat with Baba's
-                  minions.
+                  
                   <br />
-                  or <span className="font-bold">just wanna say hi?</span>
+                  <span className="font-bold"></span>
                 </p>
                 <p className="text-2xl sm:text-3xl lg:text-4xl text-gray-800 leading-relaxed">
-                  Baba's ears (and inbox) are always open.
+              
                 </p>
               </div>
             </div>
 
             {/* Have a Doubt Section */}
-            <div className="mb-24">
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-teal-900 tracking-[0.05em] mb-10">
-                HAVE A DOUBT?
-              </h2>
-              <p className="text-2xl sm:text-3xl lg:text-4xl text-gray-800 mb-12 leading-relaxed">
-                Drop it like it's hot — we'll sort it faster than your UPI ping.
-              </p>
-
-              <div className="space-y-12">
-                <div>
-                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-                    Email Support
-                  </h3>
-                  <p className="text-xl sm:text-2xl lg:text-3xl text-gray-800 mb-2">
-                    support@fundobaba.in
-                  </p>
-                  <p className="text-xl sm:text-2xl lg:text-3xl text-gray-800 leading-relaxed">
-                    We reply faster than your crush leaves you on "Seen."
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-                    App Help
-                  </h3>
-                  <p className="text-xl sm:text-2xl lg:text-3xl text-gray-800 leading-relaxed">
-                    Open the app → Go to "Help & Support" → Chat with Baba's
-                    minions.
-                    <br />
-                    (Yes, real humans. Baba doesn't do bots.)
-                  </p>
-                </div>
-              </div>
-            </div>
-
+          
             {/* Registered Office Section */}
             <div>
               <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-teal-900 tracking-[0.1em] mb-6 sm:mb-12">
@@ -160,6 +126,7 @@ export default function Contact() {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   );

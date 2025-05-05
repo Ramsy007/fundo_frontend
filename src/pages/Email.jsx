@@ -5,21 +5,21 @@ import logo from "../assets/logo.png";
 import StepsList from "../components/StepsList";
 import Navbarsteps from "../components/home/Navbarsteps";
 // import { motion } from "framer-motion";
-// import { useDispatch } from "react-redux";
-// import { changeTracker } from "../redux/slices/lTracherSlice";
-// import { LEAD_STAGE, leadStageToRouteMap } from "../utils/constants";
-// import useLeadStage from "../hooks/useLeadStage";
-// import PageLoader from "../components/Loader";
+import { useDispatch } from "react-redux";
+import { changeTracker } from "../redux/slices/lTracherSlice";
+import { LEAD_STAGE, leadStageToRouteMap } from "../utils/constants";
+import useLeadStage from "../hooks/useLeadStage";
+import PageLoader from "../components/Loader";
 
-// const curr_page_lead_stage = [
-//   LEAD_STAGE.ADD_EMPLOYMENT,
-//   LEAD_STAGE.SEND_EMAIL_OTP,
-// ];
+const curr_page_lead_stage = [
+  LEAD_STAGE.ADD_EMPLOYMENT,
+  LEAD_STAGE.SEND_EMAIL_OTP,
+];
 
 export default function Email() {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
-  // const { leadStage, isLoadingStage } = useLeadStage();
+  const dispatch = useDispatch();
+  const { leadStage, isLoadingStage } = useLeadStage();
 
   const [formData, setFormData] = useState({
     personalEmail: "",
@@ -32,16 +32,16 @@ export default function Email() {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   dispatch(changeTracker({ step: 1 }));
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(changeTracker({ step: 1 }));
+  }, [dispatch]);
 
   // Handle lead stage navigation
-  // useEffect(() => {
-  //   if (leadStage && !isLoadingStage && !curr_page_lead_stage.includes(leadStage)) {
-  //     navigate(leadStageToRouteMap[leadStage]);
-  //   }
-  // }, [leadStage, isLoadingStage, navigate]);
+  useEffect(() => {
+    if (leadStage && !isLoadingStage && !curr_page_lead_stage.includes(leadStage)) {
+      navigate(leadStageToRouteMap[leadStage]);
+    }
+  }, [leadStage, isLoadingStage, navigate]);
 
   // Validate email
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -130,9 +130,9 @@ export default function Email() {
     }
   };
 
-  // if (isLoadingStage || !leadStage) {
-  //   return <PageLoader />;
-  // }
+  if (isLoadingStage || !leadStage) {
+    return <PageLoader />;
+  }
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-white pl-0 pr-0 md:pl-6 md:pr-6 rounded-b-lg relative">

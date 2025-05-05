@@ -29,11 +29,11 @@ export default function EligibilityPromo() {
 
               <ul className="space-y-1 xs:space-y-2 sm:space-y-3 text-xs xs:text-base sm:text-2xl text-gray-800">
                 <li className="flex items-center">
-                  • Age between <span className="font-bold">21 and 58</span>
+                • Age between <b style={{marginLeft: "10px"}}>21 and 58</b>
                 </li>
                 <li className="flex items-center">
-                  • At least{" "}
-                  <span className="font-bold">₹40,000 monthly income</span>
+                • At least{" "}
+                <b style={{marginLeft: "10px"}}>₹40,000 monthly income</b>
                 </li>
                 <li className="flex items-center">
                   • Internet-enabled bank account

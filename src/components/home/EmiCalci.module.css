@@ -71,10 +71,18 @@
   flex-direction: column;
   gap: 15px;
   margin-top: 2rem;
+  /* max-width: 500px; */
+  margin-left: auto;
 }
 
-.inputContainer input {
-  padding: 1rem;
+.floatingLabelGroup {
+  position: relative;
+  margin-bottom: 0;
+}
+
+.floatingInput {
+  width: 100%;
+  padding: 1rem 1rem 1rem 1rem;
   border-radius: 20px;
   border: none;
   font-family: "Poppins", sans-serif;
@@ -83,6 +91,52 @@
   color: #333;
   outline: none;
   z-index: 20;
+  transition: all 0.3s ease;
+}
+
+.floatingLabelGroup label {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 16px;
+  background: transparent;
+  pointer-events: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0 4px;
+}
+
+.floatingInput:focus + label,
+.filled {
+  top: 0.2rem;
+  left: 18px;
+  font-size: 12px;
+  color: #b14800;
+  background: #f4dad8;
+  padding: 0 4px;
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* Fix: ensure label moves up when .filled is present, even if not focused */
+.floatingLabelGroup .filled {
+  top: 0.2rem;
+  left: 18px;
+  font-size: 12px;
+  color: #b14800;
+  background: #f4dad8;
+  padding: 0 4px;
+  transform: translateY(-50%) scale(0.95);
+}
+
+.floatingInput[readonly] + label {
+  color: #fff;
+  background: #b14800;
+}
+
+.inputContainer input::placeholder {
+  color: #666;
+  opacity: 0.8;
 }
 
 .subtext {
@@ -187,6 +241,10 @@
     bottom: 0;
   }
 
+  .inputContainer {
+    max-width: 100%;
+  }
+
   .inputContainer input {
     font-size: 14px;
     padding: 0.8rem;
@@ -211,5 +269,57 @@
     background: none;
     width: 0;
     height: 0;
+  }
+
+  .inputContainer input[readonly] {
+    font-size: 16px;
+    padding: 1rem;
+  }
+
+  .floatingInput {
+    font-size: 14px;
+    padding: 0.8rem 0.8rem 0.8rem 0.8rem;
+  }
+  .floatingLabelGroup label {
+    font-size: 14px;
+    left: 16px;
+  }
+  .floatingInput:focus + label,
+  .filled {
+    font-size: 11px;
+    left: 14px;
+  }
+  .floatingLabelGroup .filled {
+    font-size: 11px;
+    left: 14px;
+  }
+}
+
+.emiDisplayBox {
+  width: 100%;
+  background: #b14800;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-align: center;
+  border-radius: 20px;
+  padding: 1.2rem 1rem;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(177, 72, 0, 0.12);
+  transition: background 0.3s, color 0.3s, font-size 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+}
+
+@media (max-width: 480px) {
+  .emiDisplayBox {
+    font-size: 1rem;
+    padding: 1rem 0.7rem;
+    border-radius: 16px;
+    min-height: 40px;
   }
 }

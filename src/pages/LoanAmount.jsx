@@ -4,25 +4,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { userAPI } from "../services/api";
 // import { updateRequestedLoanAmount } from "../redux/slices/userDataSlice";
 import { changeTracker } from "../redux/slices/lTracherSlice";
-// import { LEAD_STAGE, leadStageToRouteMap } from "../utils/constants";
-// import useLeadStage from "../hooks/useLeadStage";
-// import PageLoader from "../components/Loader";
+ import { LEAD_STAGE, leadStageToRouteMap } from "../utils/constants";
+import useLeadStage from "../hooks/useLeadStage";
+import PageLoader from "../components/Loader";
 import logo from "../assets/logo.png";
 import StepsList from "../components/StepsList";
 import Navbarsteps2 from "../components/home/Navbarsteps2";
 import FooterStep from "../components/FooterStep";
 
-// const curr_page_lead_stage = [
-//   LEAD_STAGE.BRE_APPROVED,
-//   LEAD_STAGE.MANUALLY_APPROVE,
-// ];
+const curr_page_lead_stage = [
+  LEAD_STAGE.BRE_APPROVED,
+  LEAD_STAGE.MANUALLY_APPROVE,
+];
 
 export default function LoanAmount() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const { leadStage, isLoadingStage, errorStage } = useLeadStage();
-  // const { eligibleLoanAmount } = useSelector((state) => state.userData);
-  const eligibleLoanAmount = "56568";
+  const { leadStage, isLoadingStage, errorStage } = useLeadStage();
+  const { eligibleLoanAmount } = useSelector((state) => state.userData);
+  console.log("eligibleLoanAmount loan amount", eligibleLoanAmount);
+  // const eligibleLoanAmount = "56568";
   const [loanAmountRequested, setLoanAmountRequested] = useState(0);
   const [manualAmount, setManualAmount] = useState("");
   const [showAmountSelector, setShowAmountSelector] = useState(true);
@@ -80,9 +81,9 @@ export default function LoanAmount() {
     }
   };
 
-  const handleInsuranceChange = (e) => {
-    setIsOptInsurance(e.target.checked);
-  };
+  // const handleInsuranceChange = (e) => {
+  //   setIsOptInsurance(e.target.checked);
+  // };
 
   const generateAmountOptions = () => {
     const options = [];
@@ -100,13 +101,13 @@ export default function LoanAmount() {
     return `hsl(${hue}, 70%, 50%)`;
   };
 
-  // if (!leadStage) {
-  //   return <PageLoader />;
-  // }
+  if (!leadStage) {
+    return <PageLoader />;
+  }
 
-  // if (leadStage && !curr_page_lead_stage.includes(leadStage)) {
-  //   navigate(leadStageToRouteMap[leadStage]);
-  // }
+  if (leadStage && !curr_page_lead_stage.includes(leadStage)) {
+    navigate(leadStageToRouteMap[leadStage]);
+  }
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-white pl-0 pr-0 md:pl-6 md:pr-6 rounded-b-lg relative">
@@ -204,7 +205,7 @@ export default function LoanAmount() {
                 </div>
 
                 {/* Insurance Checkbox */}
-                <div className="mb-3 bg-white rounded-lg p-2 border border-[#243112]">
+                {/* <div className="mb-3 bg-white rounded-lg p-2 border border-[#243112]">
                   <div className="flex items-start">
                     <div className="flex items-center h-5">
                       <input
@@ -224,7 +225,7 @@ export default function LoanAmount() {
                       </p>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <button
                   type="submit"
