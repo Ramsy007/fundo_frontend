@@ -5,12 +5,26 @@ import logo from "../assets/logo.png";
 import StepsList from "../components/StepsList";
 import Navbarsteps from "../components/home/Navbarsteps";
 import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { changeTracker } from "../redux/slices/lTracherSlice";
+import {
+  updateCibil,
+  updateEligibleLoanAmount,
+} from "../redux/slices/userDataSlice";
+import { LEAD_STAGE, leadStageToRouteMap } from "../utils/constants";
+import useLeadStage from "../hooks/useLeadStage";
+import PageLoader from "../components/Loader";
+
+const curr_page_lead_stage = LEAD_STAGE.COMPLETE_REGISTRATION;
 
 export default function EmploymentStatus() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [workStatus, setWorkStatus] = useState("");
+  const dispatch = useDispatch();
+  const { leadStage, isLoadingStage, errorStage } = useLeadStage();
+  const userData = useSelector((state) => state.userData);
   const [formData, setFormData] = useState({
     companyName: "",
     salaryDate: "",
@@ -22,6 +36,7 @@ export default function EmploymentStatus() {
     salaryDate: "",
     monthlySalary: ""
   });
+
 
   // Handle work status change
   const handleWorkStatusChange = (e) => {
@@ -42,6 +57,10 @@ export default function EmploymentStatus() {
       ...prev,
       [name]: value
     }));
+
+    useEffect(() => {
+      dispatch(changeTracker({ step: 1 }));
+    }, [dispatch]);
     
     // Clear error when user starts typing
     setErrors(prev => ({
@@ -91,19 +110,52 @@ export default function EmploymentStatus() {
       
       try {
         console.log("WorkStatus", workStatus);
-        const data = {
-          employee_type: workStatus.toUpperCase(),
-          company_name: formData.companyName,
-          salary_date: formData.salaryDate,
-          monthly_salary: formData.monthlySalary
-        };
-        console.log("data----", data);
+        
+        if(workStatus === "self-employed"){
+          const data = {
+            employee_type: workStatus.toUpperCase(),
+          };
 
-        const response = await userAPI.addEmployment(data);
+          const response = await userAPI.addEmployment(data);
         console.log("response from empl--->", response);
+          if(response){
+            dispatch(changeTracker({ step: 1 }));
+            navigate("/apply/thank-you");
+          }
+        }
+        else{
+          const data = {
+            employee_type: workStatus.toUpperCase(),
+            company_name: formData.companyName,
+            salary_date: formData.salaryDate,
+            monthly_salary: formData.monthlySalary
+          };
+          console.log("data----", data);
+          const response = await userAPI.addEmployment(data);
+          console.log("response from empl--->", response);
+          if(response){
+            dispatch(changeTracker({ step: 1 }));
+            navigate("/apply/email");
+          }
+        }
+
+        
         
         if(response){
-          navigate("/apply/email");
+          // dispatch(updateCibil(response.cibil_score));
+          // dispatch(updateEligibleLoanAmount(response.eligible_loan_amount));
+          
+          if(workStatus === "salaried"){
+            dispatch(changeTracker({ step: 1 }));
+            navigate("/apply/email");
+          }else{
+            dispatch(changeTracker({ step: 1 }));
+            navigate("/apply/thank-you");
+          }
+
+
+
+          
         }
       } catch (error) {
         console.error("Error submitting employment status:", error);
@@ -113,6 +165,10 @@ export default function EmploymentStatus() {
       }
     }
   };
+
+  if (leadStage && leadStage !== curr_page_lead_stage) {
+    navigate(leadStageToRouteMap[leadStage]);
+  }
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-white pl-0 pr-0 md:pl-6 md:pr-6 rounded-b-lg relative">

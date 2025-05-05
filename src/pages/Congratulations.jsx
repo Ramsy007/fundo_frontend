@@ -6,7 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { userAPI } from "../services/api";
 import { useDispatch } from "react-redux";
 import { changeTracker } from "../redux/slices/lTracherSlice";
-
+import useLeadStage from "../hooks/useLeadStage";
+import { LEAD_STAGE, leadStageToRouteMap } from "../utils/constants";
+const curr_page_lead_stage = LEAD_STAGE.DISBURSED;
 
 export default function Congratulations() {
   const navigate = useNavigate();
@@ -16,7 +18,7 @@ export default function Congratulations() {
     amount: 0,
     accountEnding: ""
   });
-
+  const { leadStage, isLoadingStage, errorStage } = useLeadStage();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -41,6 +43,10 @@ export default function Congratulations() {
 
     fetchCongratulationData();
   }, []);
+  if (leadStage && leadStage !== curr_page_lead_stage) {
+    console.log("leadStage", leadStage);
+    navigate(leadStageToRouteMap[leadStage]);
+  }
 
   if (isLoading) {
     return (

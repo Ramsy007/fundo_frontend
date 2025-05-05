@@ -8,11 +8,11 @@ import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { changeTracker } from "../redux/slices/lTracherSlice";
 import PageLoader from "../components/Loader";
-// import { LEAD_STAGE, leadStageToRouteMap } from "../utils/constants";
-// import useLeadStage from "../hooks/useLeadStage";
-// import PageLoader from "../components/Loader";
+import { LEAD_STAGE, leadStageToRouteMap } from "../utils/constants";
+import useLeadStage from "../hooks/useLeadStage";
+import { useNavigate } from "react-router-dom";
 
-// const curr_page_lead_stage = LEAD_STAGE.VERIFY_AADHAAR_KYC;
+const curr_page_lead_stage = LEAD_STAGE.VERIFY_AADHAAR_KYC;
 
 export default function Esign() {
   const [loanDetails, setLoanDetails] = useState(null);
@@ -20,7 +20,16 @@ export default function Esign() {
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
   const [previewError, setPreviewError] = useState('');
   const dispatch = useDispatch();
-  // const { leadStage } = useLeadStage();
+  const navigate = useNavigate();
+  const { leadStage } = useLeadStage();
+
+  console.log("leadStage", leadStage);
+
+  if (leadStage && leadStage !== curr_page_lead_stage) {
+    navigate(leadStageToRouteMap[leadStage]);
+  }
+
+
 
   useEffect(() => {
     dispatch(changeTracker({ step: 4 }));
@@ -41,13 +50,24 @@ export default function Esign() {
     fetchLoanDetails();
   }, []);
 
-  // if (!leadStage) {
-  //   return <PageLoader />;
-  // }
+  
 
-  // if (leadStage && leadStage !== curr_page_lead_stage) {
-  //   navigate(leadStageToRouteMap[leadStage]);
-  // }
+  
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col justify-center items-center bg-white">
+        <div className="flex flex-col items-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#243112]"></div>
+          <p className="mt-4 text-[#243112] text-sm">Loading your loan details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!loanDetails) {
+    return <PageLoader />;
+  }
 
   const handlePreviewClick = async () => {
     setIsPreviewLoading(true);
@@ -70,20 +90,7 @@ export default function Esign() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex flex-col justify-center items-center bg-white">
-        <div className="flex flex-col items-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#243112]"></div>
-          <p className="mt-4 text-[#243112] text-sm">Loading your loan details...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!loanDetails) {
-    return <PageLoader />;
-  }
+  
 
   
 

@@ -2,9 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { authAPI, userAPI } from "../services/api";
 import { useAuth } from "../context/AuthContext";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 // import { changeTracker } from "../redux/slices/lTracherSlice";
-// import { leadStageToRouteMap } from "../utils/constants";
+import { leadStageToRouteMap } from "../utils/constants";
 import logo from "../assets/logo.png";
 import StepsList from "../components/StepsList";
 import Navbarsteps from "../components/home/Navbarsteps";
@@ -32,11 +32,11 @@ export default function OTPMobile() {
   console.log("phone_number:", phone_number); 
 
   // Redirect if required data is missing
-  // useEffect(() => {
-  //   if (!PAN || !request_id || !phone_number) {
-  //     navigate("/apply/pan-mobile", { replace: true });
-  //   }
-  // }, [PAN, request_id, phone_number, navigate]);
+  useEffect(() => {
+    if (!PAN || !request_id || !phone_number) {
+      navigate("/apply/pan-mobile", { replace: true });
+    }
+  }, [PAN, request_id, phone_number, navigate]);
 
   // useEffect(() => {
   //   dispatch(changeTracker({ step: 1 }));
@@ -128,22 +128,17 @@ export default function OTPMobile() {
       console.log("Mobile OTP Response:", response);
 
       if (response.token) {
-        // navigate("/apply/employment");
-        // return;
         login(response.token);
-        console.log("Token:", response.token);
-
-        navigate("/apply/employment-status");
-        // const journey = await userAPI.getJourney();
-        
-        // // const stage = journey.journey.lead_stage;
-        // if (stage === "SEND_EMAIL_OTP") {
-        //   navigate("/apply/email");
-        // } else if (stage === "SEND_AADHAAR_OTP") {
-        //   navigate("/apply/adhar-card");
-        // } else {
-        //   navigate(leadStageToRouteMap[stage]);
-        // }
+        const journey = await userAPI.getJourney();
+        sessionStorage.removeItem("panMobileData");
+        const stage = journey.journey.lead_stage;
+        if (stage === "SEND_EMAIL_OTP") {
+          navigate("/apply/email");
+        } else if (stage === "SEND_AADHAAR_OTP") {
+          navigate("/apply/adhar-card");
+        } else {
+          navigate(leadStageToRouteMap[stage]);
+        }
       } else {
         console.error("No token found in response:", response);
         throw new Error("Invalid response from server");

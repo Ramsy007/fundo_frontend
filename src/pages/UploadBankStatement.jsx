@@ -11,7 +11,14 @@ import FooterStep from "../components/FooterStep";
 import { FaCloudUploadAlt, FaEye, FaEyeSlash, FaFileAlt, FaLock } from "react-icons/fa";
 // import { ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
-// import PageLoader from "../components/Loader";
+import PageLoader from "../components/Loader";
+import useLeadStage from "../hooks/useLeadStage";
+import { LEAD_STAGE, leadStageToRouteMap } from "../utils/constants";
+
+const curr_page_lead_stage = [
+  LEAD_STAGE.VRIFY_EMAIL_OTP,
+  LEAD_STAGE.BRE_APPROVED,
+];  
 
 export default function UploadBankStatement() {
   const navigate = useNavigate();
@@ -25,12 +32,20 @@ export default function UploadBankStatement() {
   const [isPasswordProtected, setIsPasswordProtected] = useState(false);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { leadStage, isLoadingStage } = useLeadStage();
   // const eligibleLoanAmount = useSelector((state) => state.loan.eligibleLoanAmount);
   const eligibleLoanAmount = 7000;
   // Log Redux state changes
   // useEffect(() => {
   //   console.log("Current eligible loan amount:", eligibleLoanAmount);
   // }, [eligibleLoanAmount]);
+
+  useEffect(() => {
+    if (leadStage && !isLoadingStage && !curr_page_lead_stage.includes(leadStage)) {
+      navigate(leadStageToRouteMap[leadStage]);
+    }
+  }, [leadStage, isLoadingStage, navigate]);
+
 
   const handleUploadClick = () => {
     fileInputRef.current.click();

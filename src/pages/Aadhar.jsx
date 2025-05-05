@@ -3,23 +3,23 @@ import { useNavigate } from "react-router-dom";
 import { userAPI } from "../services/api";
 import { useDispatch } from "react-redux";
 import { changeTracker } from "../redux/slices/lTracherSlice";
-// import { LEAD_STAGE, leadStageToRouteMap } from "../utils/constants";
-// import useLeadStage from "../hooks/useLeadStage";
-// import PageLoader from "../components/Loader";
+import { LEAD_STAGE, leadStageToRouteMap } from "../utils/constants";
+import useLeadStage from "../hooks/useLeadStage";
+import PageLoader from "../components/Loader";
 import logo from "../assets/logo.png";
 import StepsList from "../components/StepsList";
 import Navbarsteps2 from "../components/home/Navbarsteps2";
 import FooterStep from "../components/FooterStep";
 
-// const curr_page_lead_stage = [
-//   LEAD_STAGE.LOAN_REQUESTED,
-//   LEAD_STAGE.SEND_AADHAAR_OTP,
-// ];
+const curr_page_lead_stage = [
+  LEAD_STAGE.LOAN_REQUESTED,
+  LEAD_STAGE.SEND_AADHAAR_OTP,
+];
 
 export default function Aadhar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const { leadStage, isLoadingStage, errorStage } = useLeadStage();
+  const { leadStage, isLoadingStage, errorStage } = useLeadStage();
   const [aadharNumber, setAadharNumber] = useState('');
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -96,13 +96,13 @@ export default function Aadhar() {
     }
   };
 
-  // if (!leadStage) {
-  //   return <PageLoader />;
-  // }
+  if (!leadStage) {
+    return <PageLoader />;
+  }
 
-  // if (leadStage && !curr_page_lead_stage.includes(leadStage)) {
-  //   navigate(leadStageToRouteMap[leadStage]);
-  // }
+  if (leadStage && !curr_page_lead_stage.includes(leadStage)) {
+    navigate(leadStageToRouteMap[leadStage]);
+  }
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-white pl-0 pr-0 md:pl-6 md:pr-6 rounded-b-lg relative">

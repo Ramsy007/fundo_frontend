@@ -407,7 +407,7 @@ export const userAPI = {
 
   addReference: async (data) => {
     try {
-      const response = await api.post("/user/add-reference", data);
+      const response = await api.post("/user/add-refrence", data);
       console.log("Reference added successfully:", response.data);
       return response.data;
     } catch (error) {

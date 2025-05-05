@@ -94,6 +94,8 @@ export default function OTPEmail() {
 
       if (response) {
         console.log("OTP verified successfully");
+        // Clear emailData from session storage
+        sessionStorage.removeItem("emailData");
         // dispatch(changeTracker({ step: 2 }));
         navigate("/apply/upload-bank-statement");
       } else {

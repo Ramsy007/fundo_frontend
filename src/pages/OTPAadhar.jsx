@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import logo from "../assets/logo.png";
 import StepsList from "../components/StepsList";
 import Navbarsteps2 from "../components/home/Navbarsteps2";
@@ -16,6 +16,17 @@ export default function OTPAadhar() {
   const location = useLocation();
   const { aadhaarNo, accessKey } =
     location.state || JSON.parse(sessionStorage.getItem("adharData") || "{}");
+
+  // Handle resend cooldown timer
+  useEffect(() => {
+    let timer;
+    if (resendCooldown > 0) {
+      timer = setInterval(() => {
+        setResendCooldown((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
 
   const handleChange = (index, value) => {
     if (/^\d?$/.test(value)) {
@@ -67,6 +78,7 @@ export default function OTPAadhar() {
       const response = await userAPI.submitAadharOTP(data);
 
       if (response) {
+        sessionStorage.removeItem("adharData");
         navigate("/apply/e-sign", {
           state: {
             message: "Aadhar verification successful",
@@ -76,6 +88,49 @@ export default function OTPAadhar() {
       }
     } catch (error) {
       setError(error.response?.data?.error || "Invalid OTP. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResendOTP = async () => {
+    if (resendCooldown > 0) return;
+
+    console.log("Resend OTP started");
+    setIsLoading(true);
+    try {
+      const data = {
+        aadhaarNo: aadhaarNo,
+      };
+
+      console.log("Resend data:", data);
+      const response = await userAPI.initiateKYC(data);
+      console.log("Resend response:", response);
+
+      if (response && response.accessKey) {
+        // Update sessionStorage with new accessKey
+        const newData = {
+          aadhaarNo,
+          accessKey: response.accessKey,
+        };
+        sessionStorage.setItem("adharData", JSON.stringify(newData));
+        setError("");
+        setResendCooldown(30); // Reset cooldown timer
+        
+        // Navigate with new accessKey
+        navigate("/apply/otp-adhar", {
+          state: newData,
+          replace: true,
+        });
+      } else {
+        throw new Error("Failed to get new access key");
+      }
+    } catch (error) {
+      console.error("Resend error:", error);
+      setError(
+        error.response?.data?.message ||
+        "Failed to resend OTP. Please try again."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -139,6 +194,20 @@ export default function OTPAadhar() {
                 {error && (
                   <p className="text-red-500 text-xs mb-4 text-center">{error}</p>
                 )}
+
+                {/* Resend OTP Button */}
+                <div className="mb-4 text-center">
+                  <button
+                    type="button"
+                    onClick={handleResendOTP}
+                    disabled={resendCooldown > 0 || isLoading}
+                    className="text-[#243112] text-xs sm:text-sm hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {resendCooldown > 0
+                      ? `Resend OTP in ${resendCooldown}s`
+                      : "Resend OTP"}
+                  </button>
+                </div>
 
                 {/* Submit Button */}
                 <button
